@@ -1,0 +1,11 @@
+{
+    "require": {
+        "tracy/tracy": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bugo\\Tracy\\": "",
+            "Bugo\\Tracy\\Panels\\": "panels/"
+        }
+    }
+}
