@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.1
+ * @version 0.2
  */
 
 namespace Bugo\Tracy;
@@ -47,7 +47,9 @@ final class Integration
 	 */
 	public function preCssOutput()
 	{
-		if (SMF === 'BACKGROUND')
+		global $modSettings;
+
+		if (SMF === 'BACKGROUND' || empty($modSettings['tracy_show_bar']))
 			return;
 
 		Debugger::renderLoader();
@@ -123,8 +125,6 @@ final class Integration
 			updateSettings($addSettings);
 
 		$config_vars = [
-			['check', 'tracy_send_email'],
-			['email', 'tracy_sender'],
 			['int', 'tracy_max_length'],
 			['int', 'tracy_max_depth'],
 			['check', 'tracy_use_light_theme'],

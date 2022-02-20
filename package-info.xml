@@ -3,7 +3,7 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>Bugo:Tracy</id>
 	<name>SMF Tracy Debugger</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<type>modification</type>
 
 	<install for="2.1.*">
@@ -17,7 +17,6 @@
 		<hook hook="integrate_pre_include" function="$sourcedir/Tracy/app.php" reverse="true" />
 		<remove-dir name="$sourcedir/Tracy" />
 		<remove-dir name="$languagedir/Tracy" />
-		<redirect url="?action=admin;area=packages;sa=browse" timeout="1000" />
 	</uninstall>
 
 </package-info>

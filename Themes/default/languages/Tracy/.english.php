@@ -2,8 +2,6 @@
 
 $txt['tracy_title'] = 'SMF Tracy Debugger';
 $txt['tracy_description'] = 'Tracy is a tool designed to facilitate debugging PHP code. It is a useful assistant to all PHP programmers, which helps with clear visualizing and logging errors, dumping variables and a lot more. <strong class="alert">Warning:</strong> Tracy is addictive!';
-$txt['tracy_send_email'] = 'Send an error notification to the administrator';
-$txt['tracy_sender'] = 'Sender email for error notifications';
 $txt['tracy_max_length'] = 'Maximum string length';
 $txt['tracy_max_depth'] = 'Depth of the displayed list';
 $txt['tracy_use_light_theme'] = 'Use the light theme';

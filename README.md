@@ -1,12 +1,11 @@
-# SMF-Tracy-Debugger
-![SMF 2.1](https://img.shields.io/badge/SMF-2.1-ed6033.svg?style=flat)
+# SMF Tracy Debugger
+[![SMF 2.1](https://img.shields.io/badge/SMF-2.1-ed6033.svg?style=flat)](https://github.com/SimpleMachines/SMF2.1)
 ![License](https://img.shields.io/github/license/dragomano/smf-tracy-debugger)
+![Hooks only: Yes](https://img.shields.io/badge/Hooks%20only-YES-blue)
 ![PHP](https://img.shields.io/badge/PHP-^7.2-blue.svg?style=flat)
 
-* **Author:** Bugo
-* **License:** [BSD-3-Clause](https://github.com/dragomano/VarDumper-for-SMF/blob/main/LICENSE)
-* **Compatible with:** SMF 2.1 RC4+ / PHP 7.2+
-* **Hooks only:** Yes
+* **Tested on:** PHP 7.4.27
+* **Languages:** English, Russian
 
 ## Description
 This modification integrates [Tracy debugging tool](https://tracy.nette.org/en/) with SMF.
