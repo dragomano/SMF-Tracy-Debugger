@@ -6,7 +6,6 @@ $txt['tracy_max_length'] = 'Maximum string length';
 $txt['tracy_max_depth'] = 'Depth of the displayed list';
 $txt['tracy_use_light_theme'] = 'Use the light theme';
 $txt['tracy_show_location'] = 'Show the location where dump() was called';
-$txt['tracy_show_bar'] = 'Show Tracy Bar';
 $txt['tracy_parameter'] = 'Parameter';
 $txt['tracy_value'] = 'Value';
 $txt['tracy_base_panel'] = 'SMF variables info';

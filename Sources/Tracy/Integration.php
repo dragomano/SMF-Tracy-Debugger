@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.2
+ * @version 0.3
  */
 
 namespace Bugo\Tracy;
@@ -35,11 +35,17 @@ final class Integration
 {
 	public function hooks()
 	{
+		add_integration_function('integrate_autoload', __CLASS__ . '::autoload#', false, __FILE__);
 		add_integration_function('integrate_pre_css_output', __CLASS__ . '::preCssOutput#', false, __FILE__);
 		add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme#', false, __FILE__);
 		add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas#', false, __FILE__);
 		add_integration_function('integrate_admin_search', __CLASS__ . '::adminSearch#', false, __FILE__);
 		add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications#', false, __FILE__);
+	}
+
+	public static function autoload(array &$classMap)
+	{
+		$classMap['Bugo\\Tracy\\'] = 'Tracy/';
 	}
 
 	/**
@@ -57,7 +63,7 @@ final class Integration
 
 	public function loadTheme()
 	{
-		global $user_info;
+		global $user_info, $modSettings;
 
 		if ($user_info['is_guest'])
 			return;
@@ -69,6 +75,9 @@ final class Integration
 		}');
 
 		loadLanguage('Tracy/');
+
+		if (empty($modSettings['tracy_show_bar']))
+			return;
 
 		$panels = [
 			Panels\BasePanel::class,
@@ -114,7 +123,7 @@ final class Integration
 		$context['settings_title'] = $txt['settings'];
 
 		$context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
-		$context[$context['admin_menu_name']]['tab_data']['tabs']['tracy_debugger'] = ['description' => $txt['tracy_description']];
+		$context[$context['admin_menu_name']]['tab_data']['description'] = $txt['tracy_description'];
 
 		$addSettings = [];
 		if (! isset($modSettings['tracy_max_length']))
@@ -129,7 +138,6 @@ final class Integration
 			['int', 'tracy_max_depth'],
 			['check', 'tracy_use_light_theme'],
 			['check', 'tracy_show_location'],
-			['check', 'tracy_show_bar'],
 		];
 
 		if ($return_config)

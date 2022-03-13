@@ -6,7 +6,6 @@ $txt['tracy_max_length'] = 'Максимальная длина строк';
 $txt['tracy_max_depth'] = 'Глубина отображаемого списка';
 $txt['tracy_use_light_theme'] = 'Использовать светлую тему';
 $txt['tracy_show_location'] = 'Отображать информацию о том, где была вызвана функция dump()';
-$txt['tracy_show_bar'] = 'Отображать панель отладки';
 $txt['tracy_parameter'] = 'Параметр';
 $txt['tracy_value'] = 'Значение';
 $txt['tracy_base_panel'] = 'Информация о переменных SMF';

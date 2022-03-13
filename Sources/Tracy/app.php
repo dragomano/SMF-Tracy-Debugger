@@ -11,13 +11,14 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.2
+ * @version 0.3
  */
 
 if (! defined('SMF'))
 	die('No direct access...');
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '\Integration.php';
+require_once 'phar://' . __DIR__ . '/tracy.phar';
 
 use Bugo\Tracy\Integration;
 use Tracy\Debugger;
@@ -30,7 +31,6 @@ Debugger::$keysToHide = ['passwd'];
 Debugger::$dumpTheme = empty($modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
 Debugger::$showLocation = ! empty($modSettings['tracy_show_location']);
 Debugger::$strictMode = true;
-Debugger::$showBar = ! empty($modSettings['tracy_show_bar']);
 Debugger::enable();
 
 // Make alias for dumpe function
