@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.1
+ * @version 0.3.1
  */
 
 namespace Bugo\Tracy\Panels;
@@ -28,18 +28,38 @@ class DatabasePanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
-		global $smcFunc, $db_count, $db_server, $db_name, $db_user, $db_passwd, $txt;
+		global $txt, $smcFunc, $db_server, $db_name, $db_user, $db_passwd, $db_count, $db_show_debug, $db_cache, $boarddir;
 
 		db_extend();
 
-		return $this->getTablePanel([
-			$txt['tracy_database_type']     => $smcFunc['db_title'],
-			$txt['tracy_database_version']  => $smcFunc['db_get_version'](),
-			$txt['tracy_database_server']   => $db_server,
-			$txt['tracy_database_name']     => $db_name,
-			$txt['tracy_database_user']     => $db_user,
-			$txt['tracy_database_password'] => $db_passwd,
-			$txt['tracy_database_queries']  => $db_count,
-		], $txt['tracy_database_panel']);
+		$params = [
+			$txt['tracy_database_type']        => $smcFunc['db_title'],
+			$txt['tracy_database_version']     => $smcFunc['db_get_version'](),
+			$txt['tracy_database_server']      => $db_server,
+			$txt['tracy_database_name']        => $db_name,
+			$txt['tracy_database_user']        => $db_user,
+			$txt['tracy_database_password']    => $db_passwd,
+			$txt['tracy_database_num_queries'] => $db_count
+		];
+
+		if (!empty($db_show_debug) && !empty($db_cache)) {
+			$queries = '';
+
+			foreach ($db_cache as $q => $query_data) {
+				if (isset($query_data['f']))
+					$query_data['f'] = preg_replace('~^' . preg_quote($boarddir, '~') . '~', '...', $query_data['f']);
+
+				$queries .= '<strong>' . nl2br(str_replace("\t", '', $smcFunc['htmlspecialchars'](ltrim($query_data['q'], "\n\r")))) . '</strong><br>';
+
+				if (!empty($query_data['f']) && !empty($query_data['l']))
+					$queries .= sprintf($txt['debug_query_in_line'], $query_data['f'], $query_data['l']);
+
+				$queries .= '<br><br>';
+			}
+
+			$params[$txt['tracy_database_queries']] = $queries;
+		}
+
+		return $this->getTablePanel($params, $txt['tracy_database_panel']);
 	}
 }
