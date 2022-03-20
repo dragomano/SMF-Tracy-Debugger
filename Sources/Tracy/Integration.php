@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.3
+ * @version 0.3.1
  */
 
 namespace Bugo\Tracy;
@@ -48,14 +48,9 @@ final class Integration
 		$classMap['Bugo\\Tracy\\'] = 'Tracy/';
 	}
 
-	/**
-	 * @hook integrate_pre_css_output
-	 */
 	public function preCssOutput()
 	{
-		global $modSettings;
-
-		if (SMF === 'BACKGROUND' || empty($modSettings['tracy_show_bar']))
+		if (SMF === 'BACKGROUND')
 			return;
 
 		Debugger::renderLoader();
@@ -63,7 +58,7 @@ final class Integration
 
 	public function loadTheme()
 	{
-		global $user_info, $modSettings;
+		global $user_info;
 
 		if ($user_info['is_guest'])
 			return;
@@ -75,9 +70,6 @@ final class Integration
 		}');
 
 		loadLanguage('Tracy/');
-
-		if (empty($modSettings['tracy_show_bar']))
-			return;
 
 		$panels = [
 			Panels\BasePanel::class,

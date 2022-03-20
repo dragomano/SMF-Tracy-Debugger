@@ -11,13 +11,13 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.3
+ * @version 0.3.1
  */
 
 if (! defined('SMF'))
 	die('No direct access...');
 
-require_once __DIR__ . '\Integration.php';
+require_once __DIR__ . '/Integration.php';
 require_once 'phar://' . __DIR__ . '/tracy.phar';
 
 use Bugo\Tracy\Integration;
