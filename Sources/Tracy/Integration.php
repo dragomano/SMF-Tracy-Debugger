@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.3.1
+ * @version 0.3.2
  */
 
 namespace Bugo\Tracy;
@@ -35,17 +35,11 @@ final class Integration
 {
 	public function hooks()
 	{
-		add_integration_function('integrate_autoload', __CLASS__ . '::autoload#', false, __FILE__);
 		add_integration_function('integrate_pre_css_output', __CLASS__ . '::preCssOutput#', false, __FILE__);
 		add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme#', false, __FILE__);
 		add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas#', false, __FILE__);
 		add_integration_function('integrate_admin_search', __CLASS__ . '::adminSearch#', false, __FILE__);
 		add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications#', false, __FILE__);
-	}
-
-	public static function autoload(array &$classMap)
-	{
-		$classMap['Bugo\\Tracy\\'] = 'Tracy/';
 	}
 
 	public function preCssOutput()
@@ -79,7 +73,11 @@ final class Integration
 			Panels\UserPanel::class,
 		];
 
+		require_once __DIR__ . '/panels/AbstractPanel.php';
+
 		foreach ($panels as $className) {
+			require_once __DIR__ . '/panels/' . substr(strrchr($className, "\\"), 1) . '.php';
+
 			$panel = new $className;
 			if ($panel instanceof IBarPanel) {
 				Debugger::getBar()->addPanel(new $className);
