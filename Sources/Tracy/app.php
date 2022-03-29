@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.3.2
+ * @version 0.4
  */
 
 if (! defined('SMF'))
@@ -22,6 +22,11 @@ require_once 'phar://' . __DIR__ . '/tracy.phar';
 
 use Bugo\Tracy\Integration;
 use Tracy\Debugger;
+
+global $db_show_debug;
+
+// Debug Mode
+$db_show_debug = !empty($modSettings['tracy_debug_mode']);
 
 // Configure debugger
 Debugger::$logSeverity = E_NOTICE | E_WARNING;

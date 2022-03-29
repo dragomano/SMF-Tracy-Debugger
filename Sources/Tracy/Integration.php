@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.3.2
+ * @version 0.4
  */
 
 namespace Bugo\Tracy;
@@ -128,6 +128,7 @@ final class Integration
 			['int', 'tracy_max_depth'],
 			['check', 'tracy_use_light_theme'],
 			['check', 'tracy_show_location'],
+			['check', 'tracy_debug_mode', 'help' => $txt['tracy_debug_mode_help']]
 		];
 
 		if ($return_config)
