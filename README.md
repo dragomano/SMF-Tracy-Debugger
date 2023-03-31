@@ -4,7 +4,7 @@
 ![Hooks only: Yes](https://img.shields.io/badge/Hooks%20only-YES-blue)
 ![PHP](https://img.shields.io/badge/PHP-^7.2-blue.svg?style=flat)
 
-* **Tested on:** PHP 7.4.28
+* **Tested on:** PHP 8.2.0
 * **Languages:** English, Russian
 
 ## Description
