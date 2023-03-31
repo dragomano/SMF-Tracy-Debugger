@@ -8,14 +8,17 @@ declare(strict_types = 1);
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
- * @copyright 2022 Bugo
+ * @copyright 2022-2023 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4
+ * @version 0.4.1
  */
 
 if (! defined('SMF'))
 	die('No direct access...');
+
+if (isset($_REQUEST['action']) && strpos($_REQUEST['action'], 'showoperations') !== false)
+	return;
 
 require_once __DIR__ . '/Integration.php';
 require_once 'phar://' . __DIR__ . '/tracy.phar';
@@ -36,7 +39,7 @@ Debugger::$keysToHide = ['passwd'];
 Debugger::$dumpTheme = empty($modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
 Debugger::$showLocation = ! empty($modSettings['tracy_show_location']);
 Debugger::$strictMode = true;
-Debugger::enable();
+Debugger::enable(Debugger::DEVELOPMENT);
 
 // Make alias for dumpe function
 if (! function_exists('dd')) {

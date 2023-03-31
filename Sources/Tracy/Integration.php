@@ -8,10 +8,10 @@ declare(strict_types = 1);
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
- * @copyright 2022 Bugo
+ * @copyright 2022-2023 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4
+ * @version 0.4.1
  */
 
 namespace Bugo\Tracy;
@@ -54,6 +54,8 @@ final class Integration
 	{
 		global $user_info;
 
+		loadLanguage('Tracy/');
+
 		if ($user_info['is_guest'])
 			return;
 
@@ -62,8 +64,6 @@ final class Integration
 			max-height: 300px;
 			overflow: auto;
 		}');
-
-		loadLanguage('Tracy/');
 
 		$panels = [
 			Panels\BasePanel::class,
@@ -113,7 +113,6 @@ final class Integration
 		$context['settings_title'] = $txt['settings'];
 
 		$context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
-		$context[$context['admin_menu_name']]['tab_data']['description'] = $txt['tracy_description'];
 
 		$addSettings = [];
 		if (! isset($modSettings['tracy_max_length']))
@@ -133,6 +132,8 @@ final class Integration
 
 		if ($return_config)
 			return $config_vars;
+
+		$context[$context['admin_menu_name']]['tab_data']['description'] = $txt['tracy_description'];
 
 		// Saving?
 		if (isset($_GET['save'])) {
