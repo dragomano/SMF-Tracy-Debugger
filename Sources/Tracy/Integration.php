@@ -11,22 +11,12 @@ declare(strict_types = 1);
  * @copyright 2022-2023 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4.1
+ * @version 0.4.3
  */
 
 namespace Bugo\Tracy;
 
 use Tracy\{Debugger, IBarPanel};
-
-use function add_integration_function;
-use function addInlineCss;
-use function loadLanguage;
-use function updateSettings;
-use function checkSession;
-use function saveDBSettings;
-use function clean_cache;
-use function redirectexit;
-use function prepareDBSettingContext;
 
 if (! defined('SMF'))
 	die('No direct access...');
@@ -67,11 +57,14 @@ final class Integration
 
 		$panels = [
 			Panels\BasePanel::class,
+			Panels\PortalPanel::class,
 			Panels\RoutePanel::class,
 			Panels\RequestPanel::class,
 			Panels\DatabasePanel::class,
 			Panels\UserPanel::class,
 		];
+
+		call_integration_hook('integrate_tracy_panels', [&$panels]);
 
 		require_once __DIR__ . '/panels/AbstractPanel.php';
 
@@ -119,15 +112,14 @@ final class Integration
 			$addSettings['tracy_max_length'] = 150;
 		if (! isset($modSettings['tracy_max_depth']))
 			$addSettings['tracy_max_depth'] = 10;
-		if ($addSettings)
-			updateSettings($addSettings);
+		updateSettings($addSettings);
 
 		$config_vars = [
 			['int', 'tracy_max_length'],
 			['int', 'tracy_max_depth'],
 			['check', 'tracy_use_light_theme'],
 			['check', 'tracy_show_location'],
-			['check', 'tracy_debug_mode', 'help' => $txt['tracy_debug_mode_help']]
+			['check', 'tracy_debug_mode', 'help' => 'tracy_debug_mode_help']
 		];
 
 		if ($return_config)

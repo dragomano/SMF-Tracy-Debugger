@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022-2023 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4.1
+ * @version 0.4.3
  */
 
 if (! defined('SMF'))
@@ -24,10 +24,9 @@ require_once __DIR__ . '/Integration.php';
 require_once 'phar://' . __DIR__ . '/tracy.phar';
 
 use Bugo\Tracy\Integration;
-use Tracy\Debugger;
-use Tracy\NativeSession;
+use Tracy\{Debugger, NativeSession};
 
-global $db_show_debug;
+global $db_show_debug, $modSettings;
 
 // Debug Mode
 $db_show_debug = !empty($modSettings['tracy_debug_mode']);

@@ -12,6 +12,7 @@ $txt['tracy_debug_mode_help'] = 'At the bottom of the page, you will see informa
 $txt['tracy_parameter'] = 'Parameter';
 $txt['tracy_value'] = 'Value';
 $txt['tracy_base_panel'] = 'SMF variables info';
+$txt['tracy_portal_panel'] = 'Portal used variables';
 $txt['tracy_database_panel'] = 'Database info';
 $txt['tracy_database_type'] = 'DB type';
 $txt['tracy_database_version'] = 'DB version';

@@ -12,6 +12,7 @@ $txt['tracy_debug_mode_help'] = 'В нижней части страницы б�
 $txt['tracy_parameter'] = 'Параметр';
 $txt['tracy_value'] = 'Значение';
 $txt['tracy_base_panel'] = 'Информация о переменных SMF';
+$txt['tracy_portal_panel'] = 'Переменные портала';
 $txt['tracy_database_panel'] = 'Информация о базе данных';
 $txt['tracy_database_type'] = 'Тип';
 $txt['tracy_database_version'] = 'Версия';
