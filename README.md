@@ -1,11 +1,11 @@
 # SMF Tracy Debugger
 
-[![SMF 2.1](https://img.shields.io/badge/SMF-2.1-ed6033.svg?style=flat)](https://github.com/SimpleMachines/SMF2.1)
+[![SMF 2.1](https://img.shields.io/badge/SMF-2.1-ed6033.svg?style=flat)](https://github.com/SimpleMachines/SMF/tree/release-2.1)
 ![License](https://img.shields.io/github/license/dragomano/smf-tracy-debugger)
 ![Hooks only: Yes](https://img.shields.io/badge/Hooks%20only-YES-blue)
 ![PHP](https://img.shields.io/badge/PHP-^7.2-blue.svg?style=flat)
 
-- **Tested on:** PHP 8.2.10
+- **Tested on:** PHP 8.2.13
 - **Languages:** English, Russian
 
 ## Description
