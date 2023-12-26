@@ -8,10 +8,10 @@ declare(strict_types = 1);
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
- * @copyright 2022 Bugo
+ * @copyright 2022-2023 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.1
+ * @version 0.4.3
  */
 
 namespace Bugo\Tracy\Panels;
@@ -38,6 +38,7 @@ class UserPanel extends AbstractPanel
 			$txt['name']              => $user_info['name'],
 			$txt['position']          => Debugger::dump($user_info['groups'], true),
 			$txt['tracy_user_avatar'] => Debugger::dump($user_info['avatar'], true),
+			'$user_info'              => Debugger::dump($user_info, true),
 		], $txt['tracy_user_panel']);
 	}
 }
