@@ -6,14 +6,14 @@
 	<version>0.4.3</version>
 	<type>modification</type>
 
-	<install for="2.1.*">
+	<install for="2.1.*, 3.0 Alpha *">
 		<require-dir name="Themes" destination="$boarddir" />
 		<require-dir name="Sources" destination="$boarddir" />
 		<hook hook="integrate_pre_include" function="$sourcedir/Tracy/app.php" />
 		<redirect url="?action=admin;area=modsettings;sa=tracy_debugger" timeout="1000" />
 	</install>
 
-	<uninstall for="2.1.*">
+	<uninstall for="2.1.*, 3.0 Alpha *">
 		<hook hook="integrate_pre_include" function="$sourcedir/Tracy/app.php" reverse="true" />
 		<remove-dir name="$sourcedir/Tracy" />
 		<remove-dir name="$languagedir/Tracy" />

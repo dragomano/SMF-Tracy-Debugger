@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.1
+ * @version 0.4.4
  */
 
 namespace Bugo\Tracy\Panels;
@@ -27,7 +27,7 @@ class BasePanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
-		global $mbname, $language, $boarddir, $boardurl, $scripturl, $cachedir, $sourcedir, $smcFunc, $context, $modSettings, $txt, $settings, $user_settings;
+		global $mbname, $language, $boarddir, $boardurl, $scripturl, $cachedir, $sourcedir, $smcFunc, $context, $modSettings, $txt, $settings;
 
 		return $this->getTablePanel([
 			'$mbname'        => $mbname,
@@ -42,7 +42,6 @@ class BasePanel extends AbstractPanel
 			'$modSettings'   => Debugger::dump($modSettings, true),
 			'$txt'           => Debugger::dump($txt, true),
 			'$settings'      => Debugger::dump($settings, true),
-			'$user_settings' => Debugger::dump($user_settings, true),
 		], $txt['tracy_base_panel']);
 	}
 }

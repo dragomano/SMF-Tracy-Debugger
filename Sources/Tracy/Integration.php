@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4.3
+ * @version 0.4.4
  */
 
 namespace Bugo\Tracy;
@@ -92,7 +92,7 @@ final class Integration
 
 	public function modifyModifications(array &$subActions)
 	{
-		$subActions['tracy_debugger'] = [$this, 'settings'];
+		$subActions['tracy_debugger'] = __CLASS__ . '::settings#';
 	}
 
 	/**
@@ -125,7 +125,10 @@ final class Integration
 		if ($return_config)
 			return $config_vars;
 
-		$context[$context['admin_menu_name']]['tab_data']['description'] = $txt['tracy_description'];
+		$menu = $context['admin_menu_name'];
+		$tabs = $context[$menu]['tab_data'];
+		$tabs['description'] = $txt['tracy_description'];
+		$context[$menu]['tab_data'] = $tabs;
 
 		// Saving?
 		if (isset($_GET['save'])) {

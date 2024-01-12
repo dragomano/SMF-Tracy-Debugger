@@ -11,7 +11,7 @@ declare(strict_types = 1);
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.1
+ * @version 0.4.4
  */
 
 namespace Bugo\Tracy\Panels;
@@ -30,7 +30,6 @@ class RoutePanel extends AbstractPanel
 		global $context, $txt;
 
 		$params = [
-			'Request'                           => Debugger::dump($_REQUEST, true),
 			$txt['tracy_route_title']           => $context['page_title'] ?? '',
 			$txt['tracy_route_current_url']     => $_SERVER['REQUEST_URL'] ?? '',
 			$txt['tracy_route_canonical_url']   => $context['canonical_url'] ?? '',
