@@ -8,7 +8,7 @@ declare(strict_types = 1);
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
- * @copyright 2022-2023 Bugo
+ * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
  * @version 0.4.3
