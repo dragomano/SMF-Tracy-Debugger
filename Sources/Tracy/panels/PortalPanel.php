@@ -30,31 +30,25 @@ class PortalPanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
-		global $context, $modSettings, $txt, $smcFunc, $editortxt, $user_info, $user_profile, $user_settings, $memberContext, $settings, $options, $db_type, $db_prefix, $language, $scripturl, $boardurl, $boarddir, $sourcedir, $cachedir;
+		global $txt;
 
 		if (! defined('LP_NAME'))
 			return '';
 
 		return $this->getTablePanel([
-			'$context'       => Debugger::dump($context, true),
-			'$modSettings'   => Debugger::dump($modSettings, true),
-			'$txt'           => Debugger::dump($txt, true),
-			'$smcFunc'       => Debugger::dump($smcFunc, true),
-			'$editortxt'     => Debugger::dump($editortxt, true),
-			'$user_info'     => Debugger::dump($user_info, true),
-			'$user_profile'  => Debugger::dump($user_profile, true),
-			'$user_settings' => Debugger::dump($user_settings, true),
-			'$memberContext' => Debugger::dump($memberContext, true),
-			'$settings'      => Debugger::dump($settings, true),
-			'$options'       => Debugger::dump($options, true),
-			'$db_type'       => $db_type,
-			'$db_prefix'     => $db_prefix,
-			'$language'      => $language,
-			'$scripturl'     => $scripturl,
-			'$boardurl'      => $boardurl,
-			'$boarddir'      => $boarddir,
-			'$sourcedir'     => $sourcedir,
-			'$cachedir'      => $cachedir,
+			'LP_NAME'          => LP_NAME,
+			'LP_VERSION'       => LP_VERSION,
+			'LP_PLUGIN_LIST'   => LP_PLUGIN_LIST,
+			'LP_ADDON_URL'     => LP_ADDON_URL,
+			'LP_ADDON_DIR'     => LP_ADDON_DIR,
+			'LP_CACHE_TIME'    => LP_CACHE_TIME,
+			'LP_ACTION'        => LP_ACTION,
+			'LP_PAGE_PARAM'    => LP_PAGE_PARAM,
+			'LP_BASE_URL'      => LP_BASE_URL,
+			'LP_PAGE_URL'      => LP_PAGE_URL,
+			'LP_ALIAS_PATTERN' => LP_ALIAS_PATTERN,
+			'LP_AREAS_PATTERN' => LP_AREAS_PATTERN,
+			'LP_ADDON_PATTERN' => LP_ADDON_PATTERN,
 		], $txt['tracy_portal_panel']);
 	}
 }
