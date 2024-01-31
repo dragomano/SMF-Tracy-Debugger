@@ -24,15 +24,12 @@ require_once __DIR__ . '/Integration.php';
 require_once 'phar://' . __DIR__ . '/tracy.phar';
 
 use Bugo\Tracy\Integration;
-use Tracy\{Debugger, NativeSession};
+use Tracy\Debugger;
 
 global $db_show_debug, $modSettings;
 
 // Debug Mode
 $db_show_debug = !empty($modSettings['tracy_debug_mode']);
-
-session_start();
-Debugger::setSessionStorage(new NativeSession);
 
 // Configure debugger
 Debugger::$logSeverity = E_NOTICE | E_WARNING;
@@ -42,7 +39,7 @@ Debugger::$keysToHide = ['passwd'];
 Debugger::$dumpTheme = empty($modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
 Debugger::$showLocation = ! empty($modSettings['tracy_show_location']);
 Debugger::$strictMode = true;
-Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/logs');
+Debugger::enable(Debugger::DEVELOPMENT);
 
 // Make alias for dumpe function
 if (! function_exists('dd')) {
