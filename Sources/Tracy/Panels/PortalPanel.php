@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 /**
  * PortalPanel.php
@@ -11,12 +9,10 @@ declare(strict_types = 1);
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4.4
+ * @version 0.5
  */
 
 namespace Bugo\Tracy\Panels;
-
-use Tracy\Debugger;
 
 class PortalPanel extends AbstractPanel
 {

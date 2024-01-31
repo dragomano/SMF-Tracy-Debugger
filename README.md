@@ -4,9 +4,9 @@
 [![SMF 3.0 Alpha](https://img.shields.io/badge/SMF-3.0_Alpha-ed2533.svg?style=flat)](https://github.com/SimpleMachines/SMF/tree/release-3.0)
 ![License](https://img.shields.io/github/license/dragomano/smf-tracy-debugger)
 ![Hooks only: Yes](https://img.shields.io/badge/Hooks%20only-YES-blue)
-![PHP](https://img.shields.io/badge/PHP-^7.2-blue.svg?style=flat)
+![PHP](https://img.shields.io/badge/PHP-^8.0-blue.svg?style=flat)
 
-- **Tested on:** PHP 8.2.13
+- **Tested on:** PHP 8.1.26
 - **Languages:** English, Russian
 
 ## Description

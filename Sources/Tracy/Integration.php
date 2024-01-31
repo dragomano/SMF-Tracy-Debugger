@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 /**
  * Integration.php
@@ -11,7 +9,7 @@ declare(strict_types = 1);
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.4.4
+ * @version 0.5
  */
 
 namespace Bugo\Tracy;
@@ -23,7 +21,7 @@ if (! defined('SMF'))
 
 final class Integration
 {
-	public function hooks()
+	public function __invoke(): void
 	{
 		add_integration_function('integrate_pre_css_output', __CLASS__ . '::preCssOutput#', false, __FILE__);
 		add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme#', false, __FILE__);
@@ -32,7 +30,7 @@ final class Integration
 		add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications#', false, __FILE__);
 	}
 
-	public function preCssOutput()
+	public function preCssOutput(): void
 	{
 		if (SMF === 'BACKGROUND')
 			return;
@@ -40,7 +38,7 @@ final class Integration
 		Debugger::renderLoader();
 	}
 
-	public function loadTheme()
+	public function loadTheme(): void
 	{
 		global $user_info;
 
@@ -78,19 +76,19 @@ final class Integration
 		}
 	}
 
-	public function adminAreas(array &$admin_areas)
+	public function adminAreas(array &$admin_areas): void
 	{
 		global $txt;
 
 		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [$txt['tracy_title']];
 	}
 
-	public function adminSearch(array &$language_files, array &$include_files, array &$settings_search)
+	public function adminSearch(array &$language_files, array &$include_files, array &$settings_search): void
 	{
 		$settings_search[] = [[$this, 'settings'], 'area=modsettings;sa=tracy_debugger'];
 	}
 
-	public function modifyModifications(array &$subActions)
+	public function modifyModifications(array &$subActions): void
 	{
 		$subActions['tracy_debugger'] = __CLASS__ . '::settings#';
 	}
@@ -100,19 +98,14 @@ final class Integration
 	*/
 	public function settings(bool $return_config = false)
 	{
-		global $context, $txt, $scripturl, $modSettings;
+		global $context, $txt, $scripturl;
 
 		$context['page_title']     = $txt['tracy_title'];
 		$context['settings_title'] = $txt['settings'];
 
 		$context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
 
-		$addSettings = [];
-		if (! isset($modSettings['tracy_max_length']))
-			$addSettings['tracy_max_length'] = 150;
-		if (! isset($modSettings['tracy_max_depth']))
-			$addSettings['tracy_max_depth'] = 10;
-		updateSettings($addSettings);
+		$this->addDefaultValues();
 
 		$config_vars = [
 			['int', 'tracy_max_length'],
@@ -142,5 +135,24 @@ final class Integration
 		}
 
 		prepareDBSettingContext($config_vars);
+	}
+
+	private function addDefaultValues(): void
+	{
+		global $modSettings;
+
+		$values = [
+			'tracy_max_length' => 150,
+			'tracy_max_depth'  => 10,
+		];
+
+		$settings = [];
+		foreach ($values as $key => $value) {
+			if (! isset($modSettings[$key])) {
+				$settings[$key] = $value;
+			}
+		}
+
+		updateSettings($settings);
 	}
 }
