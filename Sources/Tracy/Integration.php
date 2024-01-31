@@ -14,6 +14,10 @@
 
 namespace Bugo\Tracy;
 
+use Bugo\Tracy\Attributes\Hook;
+use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
+use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};
+use ReflectionClass;
 use Tracy\{Debugger, IBarPanel};
 
 if (! defined('SMF'))
@@ -21,15 +25,28 @@ if (! defined('SMF'))
 
 final class Integration
 {
+	private array $panels = [
+		BasePanel::class,
+		PortalPanel::class,
+		RoutePanel::class,
+		RequestPanel::class,
+		DatabasePanel::class,
+		UserPanel::class,
+	];
+
 	public function __invoke(): void
 	{
-		add_integration_function('integrate_pre_css_output', __CLASS__ . '::preCssOutput#', false, __FILE__);
-		add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme#', false, __FILE__);
-		add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas#', false, __FILE__);
-		add_integration_function('integrate_admin_search', __CLASS__ . '::adminSearch#', false, __FILE__);
-		add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications#', false, __FILE__);
+		$reflectionClass = new ReflectionClass(self::class);
+		foreach ($reflectionClass->getMethods() as $method) {
+			$attributes = $method->getAttributes(Hook::class);
+
+			foreach ($attributes as $attribute) {
+				$attribute->newInstance();
+			}
+		}
 	}
 
+	#[Hook('integrate_pre_css_output', self::class . '::preCssOutput#', __FILE__)]
 	public function preCssOutput(): void
 	{
 		if (SMF === 'BACKGROUND')
@@ -38,14 +55,15 @@ final class Integration
 		Debugger::renderLoader();
 	}
 
+	#[Hook('integrate_load_theme', self::class . '::loadTheme#', __FILE__)]
 	public function loadTheme(): void
 	{
 		global $user_info;
 
-		loadLanguage('Tracy/');
-
 		if ($user_info['is_guest'])
 			return;
+
+		loadLanguage('Tracy/');
 
 		addInlineCss('
 		pre.tracy-dump {
@@ -53,22 +71,9 @@ final class Integration
 			overflow: auto;
 		}');
 
-		$panels = [
-			Panels\BasePanel::class,
-			Panels\PortalPanel::class,
-			Panels\RoutePanel::class,
-			Panels\RequestPanel::class,
-			Panels\DatabasePanel::class,
-			Panels\UserPanel::class,
-		];
+		call_integration_hook('integrate_tracy_panels', [&$this->panels]);
 
-		call_integration_hook('integrate_tracy_panels', [&$panels]);
-
-		require_once __DIR__ . '/panels/AbstractPanel.php';
-
-		foreach ($panels as $className) {
-			require_once __DIR__ . '/panels/' . substr(strrchr($className, "\\"), 1) . '.php';
-
+		foreach ($this->panels as $className) {
 			$panel = new $className;
 			if ($panel instanceof IBarPanel) {
 				Debugger::getBar()->addPanel(new $className);
@@ -76,6 +81,7 @@ final class Integration
 		}
 	}
 
+	#[Hook('integrate_admin_areas', self::class . '::adminAreas#', __FILE__)]
 	public function adminAreas(array &$admin_areas): void
 	{
 		global $txt;
@@ -83,11 +89,7 @@ final class Integration
 		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [$txt['tracy_title']];
 	}
 
-	public function adminSearch(array &$language_files, array &$include_files, array &$settings_search): void
-	{
-		$settings_search[] = [[$this, 'settings'], 'area=modsettings;sa=tracy_debugger'];
-	}
-
+	#[Hook('integrate_modify_modifications', self::class . '::modifyModifications#', __FILE__)]
 	public function modifyModifications(array &$subActions): void
 	{
 		$subActions['tracy_debugger'] = __CLASS__ . '::settings#';
