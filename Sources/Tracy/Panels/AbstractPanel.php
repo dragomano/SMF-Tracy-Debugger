@@ -9,11 +9,12 @@
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.5
+ * @version 0.6
  */
 
 namespace Bugo\Tracy\Panels;
 
+use Bugo\Compat\Lang;
 use Tracy\IBarPanel;
 
 abstract class AbstractPanel implements IBarPanel
@@ -35,8 +36,6 @@ abstract class AbstractPanel implements IBarPanel
 
 	public function getTablePanel(array $params, string $title = ''): string
 	{
-		global $txt;
-
 		$output = '';
 
 		if (! empty($title))
@@ -47,8 +46,8 @@ abstract class AbstractPanel implements IBarPanel
 		$output .= '<table>';
 		$output .= '<thead>';
 		$output .= '<tr>';
-		$output .= '<th>' . $txt['tracy_parameter'] . '</th>';
-		$output .= '<th>' . $txt['tracy_value'] . '</th>';
+		$output .= '<th>' . Lang::$txt['tracy_parameter'] . '</th>';
+		$output .= '<th>' . Lang::$txt['tracy_value'] . '</th>';
 		$output .= '</tr>';
 		$output .= '</thead>';
 		$output .= '<tbody>';

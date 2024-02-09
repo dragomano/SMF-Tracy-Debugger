@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 /**
  * app.php
@@ -11,7 +9,7 @@ declare(strict_types = 1);
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.5
+ * @version 0.6
  */
 
 if (! defined('SMF'))
@@ -22,39 +20,39 @@ if (isset($_REQUEST['action']) && str_contains($_REQUEST['action'], 'showoperati
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Bugo\Compat\Config;
 use Bugo\Tracy\Integration;
 use Tracy\Debugger;
 
-global $db_show_debug, $modSettings;
-
 // Debug Mode
-$db_show_debug = ! empty($modSettings['tracy_debug_mode']);
+Config::$db_show_debug = ! empty(Config::$modSettings['tracy_debug_mode']);
 
 // Configure debugger
 Debugger::$logSeverity = E_NOTICE | E_WARNING;
-Debugger::$maxLength = (int) ($modSettings['tracy_max_length'] ?? 150);
-Debugger::$maxDepth = (int) ($modSettings['tracy_max_depth'] ?? 10);
+Debugger::$maxLength = (int) (Config::$modSettings['tracy_max_length'] ?? 150);
+Debugger::$maxDepth = (int) (Config::$modSettings['tracy_max_depth'] ?? 10);
 Debugger::$keysToHide = ['passwd'];
-Debugger::$dumpTheme = empty($modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
-Debugger::$showLocation = ! empty($modSettings['tracy_show_location']);
+Debugger::$dumpTheme = empty(Config::$modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
+Debugger::$showLocation = ! empty(Config::$modSettings['tracy_show_location']);
 Debugger::$strictMode = true;
 Debugger::enable();
 
 // Make alias for dumpe function
 if (! function_exists('dd')) {
-	function dd(...$var) {
+	function dd(...$var): void
+	{
 		dumpe(...$var);
 	}
 }
 
 // Debugger should always load first
 $line = '$sourcedir/Tracy/app.php';
-if (empty($modSettings['integrate_pre_include'])) {
-	updateSettings(['integrate_pre_include' => $line]);
-} else if (! str_starts_with($modSettings['integrate_pre_include'], $line)) {
-	$hooks = explode(',', $modSettings['integrate_pre_include']);
+if (empty(Config::$modSettings['integrate_pre_include'])) {
+	Config::updateModSettings(['integrate_pre_include' => $line]);
+} else if (! str_starts_with(Config::$modSettings['integrate_pre_include'], $line)) {
+	$hooks = explode(',', Config::$modSettings['integrate_pre_include']);
 	array_unshift($hooks, $line);
-	updateSettings(['integrate_pre_include' => implode(',', array_unique($hooks))]);
+	Config::updateModSettings(['integrate_pre_include' => implode(',', array_unique($hooks))]);
 }
 
 // Run

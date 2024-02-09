@@ -9,11 +9,13 @@
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.5
+ * @version 0.6
  */
 
 namespace Bugo\Tracy;
 
+use Bugo\Compat\{Config, IntegrationHook};
+use Bugo\Compat\{Lang, Theme, User, Utils};
 use Bugo\Tracy\Attributes\Hook;
 use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
 use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};
@@ -58,20 +60,18 @@ final class Integration
 	#[Hook('integrate_load_theme', self::class . '::loadTheme#', __FILE__)]
 	public function loadTheme(): void
 	{
-		global $user_info;
-
-		if ($user_info['is_guest'])
+		if (User::$info['is_guest'])
 			return;
 
-		loadLanguage('Tracy/');
+		Lang::load('Tracy/');
 
-		addInlineCss('
+		Theme::addInlineCss('
 		pre.tracy-dump {
 			max-height: 300px;
 			overflow: auto;
 		}');
 
-		call_integration_hook('integrate_tracy_panels', [&$this->panels]);
+		IntegrationHook::call('integrate_tracy_panels', [&$this->panels]);
 
 		foreach ($this->panels as $className) {
 			$panel = new $className;
@@ -84,9 +84,7 @@ final class Integration
 	#[Hook('integrate_admin_areas', self::class . '::adminAreas#', __FILE__)]
 	public function adminAreas(array &$admin_areas): void
 	{
-		global $txt;
-
-		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [$txt['tracy_title']];
+		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [Lang::$txt['tracy_title']];
 	}
 
 	#[Hook('integrate_modify_modifications', self::class . '::modifyModifications#', __FILE__)]
@@ -100,12 +98,10 @@ final class Integration
 	*/
 	public function settings(bool $return_config = false)
 	{
-		global $context, $txt, $scripturl;
+		Utils::$context['page_title']     = Lang::$txt['tracy_title'];
+		Utils::$context['settings_title'] = Lang::$txt['settings'];
 
-		$context['page_title']     = $txt['tracy_title'];
-		$context['settings_title'] = $txt['settings'];
-
-		$context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
+		Utils::$context['post_url'] = Config::$scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
 
 		$this->addDefaultValues();
 
@@ -120,10 +116,10 @@ final class Integration
 		if ($return_config)
 			return $config_vars;
 
-		$menu = $context['admin_menu_name'];
-		$tabs = $context[$menu]['tab_data'];
-		$tabs['description'] = $txt['tracy_description'];
-		$context[$menu]['tab_data'] = $tabs;
+		$menu = Utils::$context['admin_menu_name'];
+		$tabs = Utils::$context[$menu]['tab_data'];
+		$tabs['description'] = Lang::$txt['tracy_description'];
+		Utils::$context[$menu]['tab_data'] = $tabs;
 
 		// Saving?
 		if (isset($_GET['save'])) {
@@ -141,8 +137,6 @@ final class Integration
 
 	private function addDefaultValues(): void
 	{
-		global $modSettings;
-
 		$values = [
 			'tracy_max_length' => 150,
 			'tracy_max_depth'  => 10,
@@ -150,11 +144,11 @@ final class Integration
 
 		$settings = [];
 		foreach ($values as $key => $value) {
-			if (! isset($modSettings[$key])) {
+			if (! isset(Config::$modSettings[$key])) {
 				$settings[$key] = $value;
 			}
 		}
 
-		updateSettings($settings);
+		Config::updateModSettings($settings);
 	}
 }

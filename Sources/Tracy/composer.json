@@ -1,6 +1,8 @@
 {
     "require": {
-        "tracy/tracy": "^3.0"
+        "php": "^8.0",
+        "bugo/smf-compat": "^0.1",
+        "tracy/tracy": "^2.0"
     },
     "autoload": {
         "psr-4": {
