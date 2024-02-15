@@ -15,7 +15,7 @@
 namespace Bugo\Tracy;
 
 use Bugo\Compat\{Config, IntegrationHook};
-use Bugo\Compat\{Lang, Theme, User, Utils};
+use Bugo\Compat\{ACP, CacheApi, Lang, Menu, Theme, User, Utils};
 use Bugo\Tracy\Attributes\Hook;
 use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
 use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};
@@ -98,9 +98,8 @@ final class Integration
 	*/
 	public function settings(bool $return_config = false)
 	{
-		Utils::$context['page_title']     = Lang::$txt['tracy_title'];
+		Utils::$context['page_title'] = Lang::$txt['tracy_title'];
 		Utils::$context['settings_title'] = Lang::$txt['settings'];
-
 		Utils::$context['post_url'] = Config::$scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
 
 		$this->addDefaultValues();
@@ -116,23 +115,23 @@ final class Integration
 		if ($return_config)
 			return $config_vars;
 
-		$menu = Utils::$context['admin_menu_name'];
-		$tabs = Utils::$context[$menu]['tab_data'];
-		$tabs['description'] = Lang::$txt['tracy_description'];
-		Utils::$context[$menu]['tab_data'] = $tabs;
+		if (empty(Menu::$loaded))
+			new Menu();
+
+		Menu::$loaded['admin']->tab_data['description'] = Lang::$txt['tracy_description'];
 
 		// Saving?
 		if (isset($_GET['save'])) {
-			checkSession();
+			User::$me->checkSession();
 
 			$save_vars = $config_vars;
-			saveDBSettings($save_vars);
+			ACP::saveDBSettings($save_vars);
 
-			clean_cache();
-			redirectexit('action=admin;area=modsettings;sa=tracy_debugger');
+			CacheApi::clean();
+			Utils::redirectexit('action=admin;area=modsettings;sa=tracy_debugger');
 		}
 
-		prepareDBSettingContext($config_vars);
+		ACP::prepareDBSettingContext($config_vars);
 	}
 
 	private function addDefaultValues(): void
