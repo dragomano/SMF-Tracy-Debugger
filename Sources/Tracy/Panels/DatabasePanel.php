@@ -15,7 +15,7 @@
 namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Config;
-use Bugo\Compat\Database as Db;
+use Bugo\Compat\Db;
 use Bugo\Compat\Lang;
 use Bugo\Compat\Utils;
 use Tracy\Debugger;
