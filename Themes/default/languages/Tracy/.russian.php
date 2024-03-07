@@ -20,6 +20,7 @@ $txt['tracy_database_server'] = 'Сервер (хост)';
 $txt['tracy_database_name'] = 'Имя';
 $txt['tracy_database_user'] = 'Пользователь';
 $txt['tracy_database_password'] = 'Пароль';
+$txt['tracy_database_background_tasks'] = 'Фоновые задачи';
 $txt['tracy_database_num_queries'] = 'Количество запросов';
 $txt['tracy_database_queries'] = 'Запросы';
 $txt['tracy_request_panel'] = 'Информация о глобальных массивах';

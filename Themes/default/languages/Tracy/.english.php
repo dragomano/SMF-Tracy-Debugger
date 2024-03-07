@@ -20,6 +20,7 @@ $txt['tracy_database_server'] = 'DB server';
 $txt['tracy_database_name'] = 'DB name';
 $txt['tracy_database_user'] = 'DB user';
 $txt['tracy_database_password'] = 'DB password';
+$txt['tracy_database_background_tasks'] = 'Background tasks';
 $txt['tracy_database_num_queries'] = 'Number of queries';
 $txt['tracy_database_queries'] = 'Queries';
 $txt['tracy_request_panel'] = 'Global arrays info';
