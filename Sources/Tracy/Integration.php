@@ -14,8 +14,8 @@
 
 namespace Bugo\Tracy;
 
-use Bugo\Compat\{Config, IntegrationHook};
-use Bugo\Compat\{ACP, CacheApi, Lang, Menu, Theme, User, Utils};
+use Bugo\Compat\{Config, IntegrationHook, ACP, CacheApi};
+use Bugo\Compat\{Lang, Menu, Theme, User, Utils};
 use Bugo\Tracy\Attributes\Hook;
 use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
 use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};

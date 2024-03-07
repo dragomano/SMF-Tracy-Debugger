@@ -63,7 +63,7 @@ class DatabasePanel extends AbstractPanel
 					str_replace(
 						"\t",
 						'',
-						Utils::$smcFunc['htmlspecialchars'](ltrim($data['q'], "\n\r"))
+						Utils::htmlspecialchars(ltrim($data['q'], "\n\r"))
 					)
 				) . '</strong><br>';
 
