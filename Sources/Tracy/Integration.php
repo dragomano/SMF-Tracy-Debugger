@@ -9,7 +9,7 @@
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.6
+ * @version 0.6.2
  */
 
 namespace Bugo\Tracy;
@@ -126,6 +126,8 @@ final class Integration
 
 			$save_vars = $config_vars;
 			ACP::saveDBSettings($save_vars);
+
+			Config::updateSettingsFile(['db_show_debug' => isset($_POST['tracy_debug_mode']) ? true : false]);
 
 			CacheApi::clean();
 			Utils::redirectexit('action=admin;area=modsettings;sa=tracy_debugger');

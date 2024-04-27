@@ -9,7 +9,7 @@
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.6
+ * @version 0.6.2
  */
 
 if (! defined('SMF'))
@@ -23,9 +23,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Bugo\Compat\Config;
 use Bugo\Tracy\Integration;
 use Tracy\Debugger;
-
-// Debug Mode
-Config::$db_show_debug = ! empty(Config::$modSettings['tracy_debug_mode']);
 
 // Configure debugger
 Debugger::$logSeverity = E_NOTICE | E_WARNING;
