@@ -1,20 +1,18 @@
 <?php declare(strict_types = 1);
 
 /**
- * Integration.php
- *
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.6.2
+ * @version 0.6.4
  */
 
 namespace Bugo\Tracy;
 
-use Bugo\Compat\{Config, IntegrationHook, ACP, CacheApi};
+use Bugo\Compat\{Actions\ACP, CacheApi, Config, IntegrationHook};
 use Bugo\Compat\{Lang, Menu, Theme, User, Utils};
 use Bugo\Tracy\Attributes\Hook;
 use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
@@ -127,7 +125,7 @@ final class Integration
 			$save_vars = $config_vars;
 			ACP::saveDBSettings($save_vars);
 
-			Config::updateSettingsFile(['db_show_debug' => isset($_POST['tracy_debug_mode']) ? true : false]);
+			Config::updateSettingsFile(['db_show_debug' => isset($_POST['tracy_debug_mode'])]);
 
 			CacheApi::clean();
 			Utils::redirectexit('action=admin;area=modsettings;sa=tracy_debugger');
