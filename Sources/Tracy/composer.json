@@ -8,5 +8,13 @@
     "psr-4": {
       "Bugo\\Tracy\\": ""
     }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "platform": {
+      "php": "8.0"
+    }
   }
 }
