@@ -9,11 +9,14 @@
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  *
- * @version 0.6.2
+ * @version 0.6.4
  */
 
 if (! defined('SMF'))
 	die('No direct access...');
+
+if (SMF === 'BACKGROUND')
+	return;
 
 if (isset($_REQUEST['action']) && str_contains($_REQUEST['action'], 'showoperations'))
 	return;
