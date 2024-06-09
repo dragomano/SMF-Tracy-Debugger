@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * @package SMF Tracy Debugger
@@ -74,7 +74,7 @@ final class Integration
 		foreach ($this->panels as $className) {
 			$panel = new $className;
 			if ($panel instanceof IBarPanel) {
-				Debugger::getBar()->addPanel(new $className);
+				Debugger::getBar()->addPanel($panel);
 			}
 		}
 	}
@@ -88,7 +88,7 @@ final class Integration
 	#[Hook('integrate_modify_modifications', self::class . '::modifyModifications#', __FILE__)]
 	public function modifyModifications(array &$subActions): void
 	{
-		$subActions['tracy_debugger'] = __CLASS__ . '::settings#';
+		$subActions['tracy_debugger'] = self::class . '::settings#';
 	}
 
 	/**
