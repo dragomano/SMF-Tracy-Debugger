@@ -6,8 +6,6 @@
  * @author Bugo <bugo@dragomano.ru>
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
- *
- * @version 0.6.5
  */
 
 namespace Bugo\Tracy\Panels;

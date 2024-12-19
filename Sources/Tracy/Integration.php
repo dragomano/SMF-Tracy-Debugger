@@ -6,14 +6,12 @@
  * @author Bugo <bugo@dragomano.ru>
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
- *
- * @version 0.6.5
  */
 
 namespace Bugo\Tracy;
 
-use Bugo\Compat\{Actions\ACP, CacheApi, Config, IntegrationHook};
-use Bugo\Compat\{Lang, Menu, Theme, User, Utils};
+use Bugo\Compat\{Actions\ACP, BrowserDetector, CacheApi, Config};
+use Bugo\Compat\{IntegrationHook, Lang, Menu, Theme, User, Utils};
 use Bugo\Tracy\Attributes\Hook;
 use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
 use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};
@@ -58,7 +56,7 @@ final class Integration
 	#[Hook('integrate_load_theme', self::class . '::loadTheme#', __FILE__)]
 	public function loadTheme(): void
 	{
-		if (User::$info['is_guest'] || isBrowser('is_mobile'))
+		if (User::$info['is_guest'] || BrowserDetector::isBrowser('is_mobile'))
 			return;
 
 		Lang::load('Tracy/');
@@ -113,8 +111,9 @@ final class Integration
 		if ($return_config)
 			return $config_vars;
 
-		if (empty(Menu::$loaded))
+		if (empty(Menu::$loaded)) {
 			new Menu();
+		}
 
 		Menu::$loaded['admin']->tab_data['description'] = Lang::$txt['tracy_description'];
 
@@ -141,12 +140,9 @@ final class Integration
 			'tracy_max_depth'  => 10,
 		];
 
-		$settings = [];
-		foreach ($values as $key => $value) {
-			if (! isset(Config::$modSettings[$key])) {
-				$settings[$key] = $value;
-			}
-		}
+		$settings = array_filter($values, function ($key) {
+			return ! isset(Config::$modSettings[$key]);
+		}, ARRAY_FILTER_USE_KEY);
 
 		Config::updateModSettings($settings);
 	}

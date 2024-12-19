@@ -6,15 +6,13 @@
  * @author Bugo <bugo@dragomano.ru>
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
- *
- * @version 0.6.5
  */
 
 namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Lang;
 use Bugo\LightPortal\Enums\PortalHook;
-use Bugo\LightPortal\EventManager;
+use Bugo\LightPortal\EventManagerFactory;
 use Bugo\LightPortal\Plugins\PluginRegistry;
 use Tracy\Debugger;
 
@@ -38,9 +36,15 @@ class PortalPanel extends AbstractPanel
 			return '';
 
 		$extends = [
-			Lang::$txt['tracy_portal_hook_list']       => Debugger::dump(PortalHook::cases(), true),
-			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(PluginRegistry::getInstance()->getAll(), true),
-			Lang::$txt['tracy_portal_event_manager']   => Debugger::dump(EventManager::getInstance()->getAll(), true),
+			Lang::$txt['tracy_portal_hook_list']       => Debugger::dump(
+				PortalHook::cases(), true
+			),
+			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(
+				PluginRegistry::getInstance()->getAll(), true
+			),
+			Lang::$txt['tracy_portal_event_manager']   => Debugger::dump(
+				(new EventManagerFactory())()->getAll(), true
+			),
 		];
 
 		return $this->getTablePanel([

@@ -6,8 +6,6 @@
  * @author Bugo <bugo@dragomano.ru>
  * @copyright 2022-2024 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
- *
- * @version 0.6.5
  */
 
 namespace Bugo\Tracy\Panels;
@@ -22,8 +20,10 @@ class DatabasePanel extends AbstractPanel
 {
 	public function getTab(): string
 	{
+		Lang::load('Admin');
+
 		return $this->getSimpleTab(
-			'Database',
+			Lang::$txt['maintain_sub_database'],
 			'',
 			'<svg viewBox="0 0 2048 2048">
 				<path fill="#aaa" d="M1024 896q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-384q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-1152q208 0 385 34.5t280 93.5 103 128v128q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-128q0-69 103-128t280-93.5 385-34.5z"></path>
@@ -39,7 +39,7 @@ class DatabasePanel extends AbstractPanel
 
 		$params = [
 			Lang::$txt['tracy_database_type']             => Utils::$smcFunc['db_title'],
-			Lang::$txt['tracy_database_version']          => Utils::$smcFunc['db_get_version'](),
+			Lang::$txt['tracy_database_version']          => Db::$db->get_version(),
 			Lang::$txt['tracy_database_server']           => Config::$db_server,
 			Lang::$txt['tracy_database_name']             => Config::$db_name,
 			Lang::$txt['tracy_database_user']             => Config::$db_user,
