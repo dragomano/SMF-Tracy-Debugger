@@ -13,7 +13,7 @@ namespace Bugo\Tracy;
 use Bugo\Compat\{Actions\ACP, BrowserDetector, CacheApi, Config};
 use Bugo\Compat\{IntegrationHook, Lang, Menu, Theme, User, Utils};
 use Bugo\Tracy\Attributes\Hook;
-use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, PortalPanel};
+use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, LightPortalPanel};
 use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};
 use ReflectionClass;
 use Tracy\{Debugger, IBarPanel};
@@ -25,7 +25,7 @@ final class Integration
 {
 	private array $panels = [
 		BasePanel::class,
-		PortalPanel::class,
+		LightPortalPanel::class,
 		RoutePanel::class,
 		RequestPanel::class,
 		DatabasePanel::class,
