@@ -4,7 +4,7 @@
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
- * @copyright 2022-2024 Bugo
+ * @copyright 2022-2025 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  */
 
