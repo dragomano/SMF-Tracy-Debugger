@@ -12,6 +12,8 @@ namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Lang;
 use Bugo\LightPortal\Enums\PortalHook;
+use Bugo\LightPortal\EventManagerFactory;
+use Bugo\LightPortal\Plugins\PluginRegistry;
 use Tracy\Debugger;
 
 class LightPortalPanel extends AbstractPanel
@@ -35,8 +37,8 @@ class LightPortalPanel extends AbstractPanel
 
 		$extends = [
 			Lang::$txt['tracy_portal_hook_list']       => Debugger::dump(PortalHook::cases(), true),
-			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(app('plugin_registry')->getAll(), true),
-			Lang::$txt['tracy_portal_event_manager']   => Debugger::dump(app('events')->getAll(), true),
+			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(app(PluginRegistry::class)->getAll(), true),
+			Lang::$txt['tracy_portal_event_manager']   => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
 		];
 
 		return $this->getTablePanel([
