@@ -19,11 +19,13 @@ abstract class AbstractPanel implements IBarPanel
 	{
 		$output = '<span class="tracy-label"' . (! empty($description) ? ' title="' . $description . '"' : '') . '>';
 
-		if (! empty($image))
+		if (! empty($image)) {
 			$output .= $image . ' ';
+		}
 
-		if (! empty($title))
+		if (! empty($title)) {
 			$output .= $title;
+		}
 
 		$output .= '</span>';
 
@@ -34,8 +36,9 @@ abstract class AbstractPanel implements IBarPanel
 	{
 		$output = '';
 
-		if (! empty($title))
+		if (! empty($title)) {
 			$output .= '<h1>' . $title . '</h1>';
+		}
 
 		$output .= '<div class="tracy-inner">';
 		$output .= '<div class="tracy-inner-container">';

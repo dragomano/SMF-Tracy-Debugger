@@ -10,11 +10,14 @@
 
 namespace Bugo\Tracy;
 
-use Bugo\Compat\{Actions\ACP, BrowserDetector, CacheApi, Config};
-use Bugo\Compat\{IntegrationHook, Lang, Menu, Theme, User, Utils};
-use Bugo\Tracy\Attributes\Hook;
-use Bugo\Tracy\Panels\{BasePanel, DatabasePanel, LightPortalPanel};
-use Bugo\Tracy\Panels\{RequestPanel, RoutePanel, UserPanel};
+use Bugo\Compat\{Config, IntegrationHook, Lang};
+use Bugo\Compat\{Menu, Theme, User, Utils};
+use Bugo\Compat\Actions\Admin\ACP;
+use Bugo\Compat\BrowserDetector;
+use Bugo\Compat\Cache\CacheApi;
+use Bugo\Tracy\Panels\{BasePanel, DatabasePanel};
+use Bugo\Tracy\Panels\{LightPortalPanel, RequestPanel};
+use Bugo\Tracy\Panels\{RoutePanel, UserPanel};
 use ReflectionClass;
 use Tracy\{Debugger, IBarPanel};
 
@@ -35,25 +38,25 @@ final class Integration
 	public function __invoke(): void
 	{
 		$reflectionClass = new ReflectionClass(self::class);
+
 		foreach ($reflectionClass->getMethods() as $method) {
 			$attributes = $method->getAttributes(Hook::class);
 
 			foreach ($attributes as $attribute) {
-				$attribute->newInstance();
+				/** @var Hook $hook */
+				$hook = $attribute->newInstance();
+				$hook->resolve($reflectionClass, $method->getName());
 			}
 		}
 	}
 
-	#[Hook('integrate_pre_css_output', self::class . '::preCssOutput#', __FILE__)]
+	#[Hook('integrate_pre_css_output')]
 	public function preCssOutput(): void
 	{
-		if (SMF === 'BACKGROUND')
-			return;
-
 		Debugger::renderLoader();
 	}
 
-	#[Hook('integrate_load_theme', self::class . '::loadTheme#', __FILE__)]
+	#[Hook('integrate_load_theme')]
 	public function loadTheme(): void
 	{
 		if (User::$info['is_guest'] || BrowserDetector::isBrowser('is_mobile'))
@@ -77,13 +80,13 @@ final class Integration
 		}
 	}
 
-	#[Hook('integrate_admin_areas', self::class . '::adminAreas#', __FILE__)]
+	#[Hook('integrate_admin_areas')]
 	public function adminAreas(array &$admin_areas): void
 	{
 		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [Lang::$txt['tracy_title']];
 	}
 
-	#[Hook('integrate_modify_modifications', self::class . '::modifyModifications#', __FILE__)]
+	#[Hook('integrate_modify_modifications')]
 	public function modifyModifications(array &$subActions): void
 	{
 		$subActions['tracy_debugger'] = self::class . '::settings#';
@@ -108,8 +111,9 @@ final class Integration
 			['check', 'tracy_debug_mode', 'help' => 'tracy_debug_mode_help']
 		];
 
-		if ($return_config)
+		if ($return_config) {
 			return $config_vars;
+		}
 
 		if (empty(Menu::$loaded)) {
 			new Menu();

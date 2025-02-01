@@ -1,7 +1,7 @@
 {
   "require": {
     "php": "^8.0",
-    "bugo/smf-compat": "^0.2",
+    "bugo/smf-compat": "^0.3",
     "tracy/tracy": "^2.0"
   },
   "autoload": {

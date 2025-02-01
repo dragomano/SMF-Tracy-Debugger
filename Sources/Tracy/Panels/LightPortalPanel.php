@@ -12,8 +12,7 @@ namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Lang;
 use Bugo\LightPortal\Enums\PortalHook;
-use Bugo\LightPortal\EventManagerFactory;
-use Bugo\LightPortal\Plugins\PluginRegistry;
+use Bugo\LightPortal\Events\EventManagerFactory;
 use Tracy\Debugger;
 
 class LightPortalPanel extends AbstractPanel
@@ -26,7 +25,19 @@ class LightPortalPanel extends AbstractPanel
 		return $this->getSimpleTab(
 			LP_NAME,
 			'',
-			'<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJ2SURBVDhPrZJfSFNRHMd/5/7dvZtrW/NfWWv+o8KCIJwFg1TQGT0nIeFDD0EpBfaSQfUSPUVUghT4UEGP0UMIMzEicItCwyAcpsxYummmuXbv7t39U+dw/DN6rM/L+f35ni+/3+HAv4LoucXDD/w1VyJ0tmS2dUio6RjnfYqqQ9dER8ciVRTxl0HFQPx+kM+ddvGGv1r6xbqlAszLYiIFzpbxtrYFKtukyGD3vXiVR9RGvVyhFiFgaRlYZIPBwpd0znHjpyWMLfeE0rQFDD0JDqHQ4uH0mu2XMaaNABmotlzIPy5jtdcVA7G7eFXc2zRoHB6uKpfyNxmEOFoiBDxOGDx1FK6faADc8/J6XZBXzlyWZ5pwnxgcHxnZtYfRx3gTgjjfIBwohf7wQXj2aR72+91kXzydzBn+8+65MNYQA8SYTwOqVmdtexKOYeBIpRdeTKegs2Ev9EUnwaa9ainHPnIEIzgmBmHrB5dVyUpQIvJQ6hTBsCx48jEJvaF6uP32MyxmVdLHSJIB71jfOo6JwTltLjqnOk0cHyh1w63WwyCyDDSU7YA3yaU/Y29NhqN52TFVsNlunJPXNiO99ldNPskgW17IqoxfFuFCYz1UuBxwJ5aAFUXDMkKBs6c1CZrjkch3nBOD1ebuTMZ2VzOIcYqM4ZnKrLG5gglDE7OgmxaWECwb9LQqXZnqao3TUvFHKh+M7XNYVnOlrFzlLVRHywTbss1VU0isaWL7t0tNKVouNtjgWDRathP00YCSP6SqHCTzsqHo3HLSdD1PXwz1UBlh8yNtJ9bevpQV7JbJEtdLr1959cD3vr9GWO90GSt9VPK/APgNg6vVv8QSuBAAAAAASUVORK5CYII="/>'
+			implode('', [
+				'<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IAr',
+				's4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJ2SURBVDhPrZJfSFNRHMd/5/7dvZtrW/NfWWv+o',
+				'8KCIJwFg1TQGT0nIeFDD0EpBfaSQfUSPUVUghT4UEGP0UMIMzEicItCwyAcpsxYummmuXbv7t39U+dw/DN6rM/L+f35ni+/3',
+				'+HAv4LoucXDD/w1VyJ0tmS2dUio6RjnfYqqQ9dER8ciVRTxl0HFQPx+kM+ddvGGv1r6xbqlAszLYiIFzpbxtrYFKtukyGD3v',
+				'XiVR9RGvVyhFiFgaRlYZIPBwpd0znHjpyWMLfeE0rQFDD0JDqHQ4uH0mu2XMaaNABmotlzIPy5jtdcVA7G7eFXc2zRoHB6uK',
+				'pfyNxmEOFoiBDxOGDx1FK6faADc8/J6XZBXzlyWZ5pwnxgcHxnZtYfRx3gTgjjfIBwohf7wQXj2aR72+91kXzydzBn+8+65M',
+				'NYQA8SYTwOqVmdtexKOYeBIpRdeTKegs2Ev9EUnwaa9ainHPnIEIzgmBmHrB5dVyUpQIvJQ6hTBsCx48jEJvaF6uP32MyxmVd',
+				'LHSJIB71jfOo6JwTltLjqnOk0cHyh1w63WwyCyDDSU7YA3yaU/Y29NhqN52TFVsNlunJPXNiO99ldNPskgW17IqoxfFuFCYz1U',
+				'uBxwJ5aAFUXDMkKBs6c1CZrjkch3nBOD1ebuTMZ2VzOIcYqM4ZnKrLG5gglDE7OgmxaWECwb9LQqXZnqao3TUvFHKh+M7XNYVn',
+				'OlrFzlLVRHywTbss1VU0isaWL7t0tNKVouNtjgWDRathP00YCSP6SqHCTzsqHo3HLSdD1PXwz1UBlh8yNtJ9bevpQV7JbJEtdL',
+				'r1959cD3vr9GWO90GSt9VPK/APgNg6vVv8QSuBAAAAAASUVORK5CYII="/>'
+			])
 		);
 	}
 
@@ -37,7 +48,7 @@ class LightPortalPanel extends AbstractPanel
 
 		$extends = [
 			Lang::$txt['tracy_portal_hook_list']       => Debugger::dump(PortalHook::cases(), true),
-			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(app(PluginRegistry::class)->getAll(), true),
+			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(app()->get('plugins'), true),
 			Lang::$txt['tracy_portal_event_manager']   => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
 		];
 

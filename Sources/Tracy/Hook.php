@@ -8,7 +8,7 @@
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  */
 
-namespace Bugo\Tracy\Attributes;
+namespace Bugo\Tracy;
 
 use Attribute;
 use Bugo\Compat\IntegrationHook;
@@ -16,8 +16,12 @@ use Bugo\Compat\IntegrationHook;
 #[Attribute(Attribute::TARGET_METHOD)]
 final class Hook
 {
-	public function __construct(string $name, string $method, string $file)
+	public function __construct(private readonly string $name) {}
+
+	public function resolve(object $class, string $methodName): void
 	{
-		IntegrationHook::add($name, $method, false, $file);
+		$method ??= get_class($class->newInstance()) . '::' . $methodName;
+
+		IntegrationHook::add($this->name, $method, false, $class->getFileName(), true);
 	}
 }
