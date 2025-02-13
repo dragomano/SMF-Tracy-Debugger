@@ -10,6 +10,11 @@
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  */
 
+use Bugo\Compat\Config;
+use Bugo\Tracy\Integration;
+use JetBrains\PhpStorm\NoReturn;
+use Tracy\Debugger;
+
 if (! defined('SMF'))
 	die('No direct access...');
 
@@ -20,10 +25,6 @@ if (isset($_REQUEST['action']) && str_contains($_REQUEST['action'], 'showoperati
 	return;
 
 require_once __DIR__ . '/vendor/autoload.php';
-
-use Bugo\Compat\Config;
-use Bugo\Tracy\Integration;
-use Tracy\Debugger;
 
 // Configure debugger
 Debugger::$logSeverity = E_NOTICE | E_WARNING;
@@ -37,6 +38,7 @@ Debugger::enable();
 
 // Make alias for dumpe function
 if (! function_exists('dd')) {
+	#[NoReturn]
 	function dd(...$var): void
 	{
 		dumpe(...$var);

@@ -38,8 +38,6 @@ class DatabasePanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
-		Db::extend();
-
 		$tasks = $this->getBackgroundTasks();
 
 		$params = [
