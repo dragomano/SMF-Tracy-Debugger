@@ -7,6 +7,7 @@ $txt['tracy_max_length'] = 'Максимальная длина строк';
 $txt['tracy_max_depth'] = 'Глубина отображаемого списка';
 $txt['tracy_use_light_theme'] = 'Использовать светлую тему';
 $txt['tracy_show_location'] = 'Отображать информацию о том, где была вызвана функция dump()';
+$txt['tracy_capture_ajax'] = 'Перехватывать AJAX-запросы';
 $txt['tracy_debug_mode'] = 'Включить режим отладки';
 $txt['tracy_debug_mode_help'] = 'В нижней части страницы будет отображаться информация о запросах к базе данных.';
 $txt['tracy_parameter'] = 'Параметр';

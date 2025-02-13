@@ -50,6 +50,14 @@ final class Integration
 		}
 	}
 
+	#[Hook('integrate_pre_javascript_output')]
+	public function preJavascriptOutput(): void
+	{
+		if (empty(Config::$modSettings['tracy_capture_ajax'])) {
+			Theme::addInlineJavaScript("\n\t" . 'window.TracyAutoRefresh = false;');
+		}
+	}
+
 	#[Hook('integrate_pre_css_output')]
 	public function preCssOutput(): void
 	{
@@ -108,6 +116,7 @@ final class Integration
 			['int', 'tracy_max_depth'],
 			['check', 'tracy_use_light_theme'],
 			['check', 'tracy_show_location'],
+			['check', 'tracy_capture_ajax'],
 			['check', 'tracy_debug_mode', 'help' => 'tracy_debug_mode_help']
 		];
 
@@ -144,9 +153,7 @@ final class Integration
 			'tracy_max_depth'  => 10,
 		];
 
-		$settings = array_filter($values, function ($key) {
-			return ! isset(Config::$modSettings[$key]);
-		}, ARRAY_FILTER_USE_KEY);
+		$settings = array_filter($values, fn($key) => ! isset(Config::$modSettings[$key]), ARRAY_FILTER_USE_KEY);
 
 		Config::updateModSettings($settings);
 	}
