@@ -19,7 +19,7 @@ class UserPanel extends AbstractPanel
 	public function getTab(): string
 	{
 		return $this->getSimpleTab(
-			User::$info['name'],
+			User::$me->name,
 			'',
 			implode('', [
 				'<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA',
@@ -38,13 +38,13 @@ class UserPanel extends AbstractPanel
 	public function getPanel(): string
 	{
 		return $this->getTablePanel([
-			'ID'                            => User::$info['id'],
-			Lang::$txt['username']          => User::$info['username'],
-			Lang::$txt['email']             => User::$info['email'],
-			Lang::$txt['name']              => User::$info['name'],
-			Lang::$txt['position']          => Debugger::dump(User::$info['groups'], true),
-			Lang::$txt['tracy_user_avatar'] => Debugger::dump(User::$info['avatar'], true),
-			'$user_info'                    => Debugger::dump(User::$info, true),
+			'ID'                            => User::$me->id,
+			Lang::$txt['username']          => User::$me->username,
+			Lang::$txt['email']             => User::$me->email,
+			Lang::$txt['name']              => User::$me->name,
+			Lang::$txt['position']          => Debugger::dump(User::$me->groups, true),
+			Lang::$txt['tracy_user_avatar'] => Debugger::dump(User::$me->avatar, true),
+			'$user_info'                    => Debugger::dump(User::$me, true),
 		], Lang::$txt['tracy_user_panel']);
 	}
 }

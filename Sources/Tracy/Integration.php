@@ -67,7 +67,7 @@ final class Integration
 	#[Hook('integrate_load_theme')]
 	public function loadTheme(): void
 	{
-		if (User::$info['is_guest'] || BrowserDetector::isBrowser('is_mobile'))
+		if (User::$me->is_guest || BrowserDetector::isBrowser('is_mobile'))
 			return;
 
 		Lang::load('Tracy/');
