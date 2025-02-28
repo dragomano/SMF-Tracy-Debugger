@@ -37,6 +37,10 @@ class UserPanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
+		if (empty(User::$loaded[User::$me->id])) {
+			User::load(User::$me->id);
+		}
+
 		return $this->getTablePanel([
 			'ID'                            => User::$me->id,
 			Lang::$txt['username']          => User::$me->username,
@@ -44,7 +48,7 @@ class UserPanel extends AbstractPanel
 			Lang::$txt['name']              => User::$me->name,
 			Lang::$txt['position']          => Debugger::dump(User::$me->groups, true),
 			Lang::$txt['tracy_user_avatar'] => Debugger::dump(User::$me->avatar, true),
-			'$user_info'                    => Debugger::dump(User::$me, true),
+			'$user_info'                    => Debugger::dump(User::$loaded[User::$me->id]->format(), true),
 		], Lang::$txt['tracy_user_panel']);
 	}
 }

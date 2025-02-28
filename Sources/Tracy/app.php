@@ -12,7 +12,6 @@
 
 use Bugo\Compat\Config;
 use Bugo\Tracy\Integration;
-use JetBrains\PhpStorm\NoReturn;
 use Tracy\Debugger;
 
 if (! defined('SMF'))
@@ -38,7 +37,6 @@ Debugger::enable();
 
 // Make alias for dumpe function
 if (! function_exists('dd')) {
-	#[NoReturn]
 	function dd(...$var): void
 	{
 		dumpe(...$var);

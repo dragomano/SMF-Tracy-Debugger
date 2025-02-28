@@ -124,10 +124,6 @@ final class Integration
 			return $config_vars;
 		}
 
-		if (empty(Menu::$loaded)) {
-			new Menu();
-		}
-
 		Menu::$loaded['admin']->tab_data['description'] = Lang::$txt['tracy_description'];
 
 		// Saving?
