@@ -11,6 +11,7 @@
 namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Config;
+use Bugo\Compat\IntegrationHook;
 use Bugo\Compat\Lang;
 use Bugo\Compat\Theme;
 use Bugo\Compat\Utils;
@@ -47,6 +48,13 @@ class BasePanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
+		$extends = [
+			Lang::$txt['tracy_js_registry']  => Debugger::dump(Utils::$context['javascript_files'], true),
+			Lang::$txt['tracy_css_registry'] => Debugger::dump(Utils::$context['css_files'], true),
+		];
+
+		IntegrationHook::call('integrate_tracy_base_panel', [&$extends]);
+
 		return $this->getTablePanel([
 			'$mbname'      => Config::$mbname,
 			'$language'    => Config::$language,
@@ -60,6 +68,7 @@ class BasePanel extends AbstractPanel
 			'$modSettings' => Debugger::dump(Config::$modSettings, true),
 			'$txt'         => Debugger::dump(Lang::$txt, true),
 			'$settings'    => Debugger::dump(Theme::$current->settings, true),
+			...$extends,
 		], Lang::$txt['tracy_base_panel']);
 	}
 }

@@ -10,6 +10,7 @@
 
 namespace Bugo\Tracy\Panels;
 
+use Bugo\Compat\IntegrationHook;
 use Bugo\Compat\Lang;
 use Bugo\Compat\User;
 use Tracy\Debugger;
@@ -41,6 +42,12 @@ class UserPanel extends AbstractPanel
 			User::load(User::$me->id);
 		}
 
+		$extends = [
+			'$user_info' => Debugger::dump(User::$loaded[User::$me->id]->format(), true),
+		];
+
+		IntegrationHook::call('integrate_tracy_user_panel', [&$extends]);
+
 		return $this->getTablePanel([
 			'ID'                            => User::$me->id,
 			Lang::$txt['username']          => User::$me->username,
@@ -48,7 +55,7 @@ class UserPanel extends AbstractPanel
 			Lang::$txt['name']              => User::$me->name,
 			Lang::$txt['position']          => Debugger::dump(User::$me->groups, true),
 			Lang::$txt['tracy_user_avatar'] => Debugger::dump(User::$me->avatar, true),
-			'$user_info'                    => Debugger::dump(User::$loaded[User::$me->id]->format(), true),
+			...$extends,
 		], Lang::$txt['tracy_user_panel']);
 	}
 }

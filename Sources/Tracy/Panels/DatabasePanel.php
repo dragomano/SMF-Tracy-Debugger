@@ -12,6 +12,7 @@ namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Config;
 use Bugo\Compat\Db;
+use Bugo\Compat\IntegrationHook;
 use Bugo\Compat\Lang;
 use Bugo\Compat\Utils;
 use Tracy\Debugger;
@@ -40,15 +41,21 @@ class DatabasePanel extends AbstractPanel
 	{
 		$tasks = $this->getBackgroundTasks();
 
-		$params = [
-			Lang::$txt['tracy_database_type']             => Utils::$smcFunc['db_title'],
-			Lang::$txt['tracy_database_version']          => Db::$db->get_version(),
-			Lang::$txt['tracy_database_server']           => Config::$db_server,
-			Lang::$txt['tracy_database_name']             => Config::$db_name,
-			Lang::$txt['tracy_database_user']             => Config::$db_user,
-			Lang::$txt['tracy_database_password']         => Config::$db_passwd,
+		$extends = [
 			Lang::$txt['tracy_database_background_tasks'] => $tasks ? Debugger::dump($tasks, true) : Lang::$txt['no'],
 			Lang::$txt['tracy_database_num_queries']      => Db::$count,
+		];
+
+		IntegrationHook::call('integrate_tracy_database_panel', [&$extends]);
+
+		$params = [
+			Lang::$txt['tracy_database_type']     => Utils::$smcFunc['db_title'],
+			Lang::$txt['tracy_database_version']  => Db::$db->get_version(),
+			Lang::$txt['tracy_database_server']   => Config::$db_server,
+			Lang::$txt['tracy_database_name']     => Config::$db_name,
+			Lang::$txt['tracy_database_user']     => Config::$db_user,
+			Lang::$txt['tracy_database_password'] => Config::$db_passwd,
+			...$extends,
 		];
 
 		if (! empty(Config::$db_show_debug) && ! empty(Db::$cache)) {
