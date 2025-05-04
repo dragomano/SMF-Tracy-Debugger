@@ -21,10 +21,8 @@ class DatabasePanel extends AbstractPanel
 {
 	public function getTab(): string
 	{
-		Lang::load('Admin');
-
 		return $this->getSimpleTab(
-			Lang::$txt['maintain_sub_database'],
+			Lang::getTxt('maintain_sub_database', file: 'Admin'),
 			'',
 			'<svg viewBox="0 0 2048 2048">' . implode(' ', [
 				'<path fill="#aaa" d="M1024 896q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385',
@@ -42,19 +40,19 @@ class DatabasePanel extends AbstractPanel
 		$tasks = $this->getBackgroundTasks();
 
 		$extends = [
-			Lang::$txt['tracy_database_background_tasks'] => $tasks ? Debugger::dump($tasks, true) : Lang::$txt['no'],
-			Lang::$txt['tracy_database_num_queries']      => Db::$count,
+			Lang::getTxt('tracy_database_background_tasks') => $tasks ? Debugger::dump($tasks, true) : Lang::getTxt('no'),
+			Lang::getTxt('tracy_database_num_queries')      => Db::$count,
 		];
 
 		IntegrationHook::call('integrate_tracy_database_panel', [&$extends]);
 
 		$params = [
-			Lang::$txt['tracy_database_type']     => Utils::$smcFunc['db_title'],
-			Lang::$txt['tracy_database_version']  => Db::$db->get_version(),
-			Lang::$txt['tracy_database_server']   => Config::$db_server,
-			Lang::$txt['tracy_database_name']     => Config::$db_name,
-			Lang::$txt['tracy_database_user']     => Config::$db_user,
-			Lang::$txt['tracy_database_password'] => Config::$db_passwd,
+			Lang::getTxt('tracy_database_type')     => Utils::$smcFunc['db_title'],
+			Lang::getTxt('tracy_database_version')  => Db::$db->get_version(),
+			Lang::getTxt('tracy_database_server')   => Config::$db_server,
+			Lang::getTxt('tracy_database_name')     => Config::$db_name,
+			Lang::getTxt('tracy_database_user')     => Config::$db_user,
+			Lang::getTxt('tracy_database_password') => Config::$db_passwd,
 			...$extends,
 		];
 
@@ -62,10 +60,11 @@ class DatabasePanel extends AbstractPanel
 			$queries = '';
 
 			foreach (Db::$cache as $data) {
-				if (isset($data['f']))
+				if (isset($data['f'])) {
 					$data['f'] = preg_replace(
 						'~^' . preg_quote(Config::$boarddir, '~') . '~', '...', $data['f']
 					);
+				}
 
 				$queries .= '<strong>' . nl2br(
 					str_replace(
@@ -75,16 +74,17 @@ class DatabasePanel extends AbstractPanel
 					)
 				) . '</strong><br>';
 
-				if (! empty($data['f']) && ! empty($data['l']))
-					$queries .= sprintf(Lang::$txt['debug_query_in_line'], $data['f'], $data['l']);
+				if (! empty($data['f']) && ! empty($data['l'])) {
+					$queries .= sprintf(Lang::getTxt('debug_query_in_line'), $data['f'], $data['l']);
+				}
 
 				$queries .= '<br><br>';
 			}
 
-			$params[Lang::$txt['tracy_database_queries']] = $queries;
+			$params[Lang::getTxt('tracy_database_queries')] = $queries;
 		}
 
-		return $this->getTablePanel($params, Lang::$txt['tracy_database_panel']);
+		return $this->getTablePanel($params, Lang::getTxt('tracy_database_panel'));
 	}
 
 	private function getBackgroundTasks(): array

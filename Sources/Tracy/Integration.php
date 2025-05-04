@@ -70,8 +70,6 @@ final class Integration
 		if (User::$me->is_guest || BrowserDetector::isBrowser('is_mobile'))
 			return;
 
-		Lang::load('Tracy/');
-
 		Theme::addInlineCss('
 		pre.tracy-dump {
 			max-height: 300px;
@@ -91,7 +89,9 @@ final class Integration
 	#[Hook('integrate_admin_areas')]
 	public function adminAreas(array &$admin_areas): void
 	{
-		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [Lang::$txt['tracy_title']];
+		$admin_areas['config']['areas']['modsettings']['subsections']['tracy_debugger'] = [
+			Lang::getTxt('tracy_title', file: 'Tracy/')
+		];
 	}
 
 	#[Hook('integrate_modify_modifications')]
@@ -105,8 +105,8 @@ final class Integration
 	*/
 	public function settings(bool $return_config = false)
 	{
-		Utils::$context['page_title'] = Lang::$txt['tracy_title'];
-		Utils::$context['settings_title'] = Lang::$txt['settings'];
+		Utils::$context['page_title'] = Lang::getTxt('tracy_title');
+		Utils::$context['settings_title'] = Lang::getTxt('settings');
 		Utils::$context['post_url'] = Config::$scripturl . '?action=admin;area=modsettings;save;sa=tracy_debugger';
 
 		$this->addDefaultValues();
@@ -124,7 +124,7 @@ final class Integration
 			return $config_vars;
 		}
 
-		Menu::$loaded['admin']->tab_data['description'] = Lang::$txt['tracy_description'];
+		Menu::$loaded['admin']->tab_data['description'] = Lang::getTxt('tracy_description');
 
 		// Saving?
 		if (isset($_GET['save'])) {

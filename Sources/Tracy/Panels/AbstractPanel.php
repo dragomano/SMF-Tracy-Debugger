@@ -45,8 +45,8 @@ abstract class AbstractPanel implements IBarPanel
 		$output .= '<table>';
 		$output .= '<thead>';
 		$output .= '<tr>';
-		$output .= '<th>' . Lang::$txt['tracy_parameter'] . '</th>';
-		$output .= '<th>' . Lang::$txt['tracy_value'] . '</th>';
+		$output .= '<th>' . Lang::getTxt('tracy_parameter') . '</th>';
+		$output .= '<th>' . Lang::getTxt('tracy_value') . '</th>';
 		$output .= '</tr>';
 		$output .= '</thead>';
 		$output .= '<tbody>';

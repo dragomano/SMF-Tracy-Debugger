@@ -41,6 +41,6 @@ class RequestPanel extends AbstractPanel
 			'$_FILES'   => Debugger::dump($_FILES, true),
 			'$_SERVER'  => Debugger::dump($_SERVER, true),
 			'$_SESSION' => Debugger::dump($_SESSION, true)
-		], Lang::$txt['tracy_request_panel']);
+		], Lang::getTxt('tracy_request_panel'));
 	}
 }

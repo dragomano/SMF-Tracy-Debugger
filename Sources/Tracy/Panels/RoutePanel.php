@@ -42,18 +42,18 @@ class RoutePanel extends AbstractPanel
 		$canonical = QueryString::rewriteAsQueryless(Utils::$context['canonical_url'] ?? '');
 
 		$params = [
-			Lang::$txt['tracy_route_title']           => Utils::$context['page_title'] ?? '',
-			Lang::$txt['tracy_route_current_url']     => $_SERVER['REQUEST_URL'] ?? '',
-			Lang::$txt['tracy_route_canonical_url']   => $canonical ?: Lang::$txt['no'],
-			Lang::$txt['tracy_route_linktree']        => Debugger::dump(Utils::$context['linktree'], true),
-			Lang::$txt['tracy_route_sub_template']    => 'template_' . (Utils::$context['sub_template'] ?? 'main'),
-			Lang::$txt['tracy_route_template_layers'] => Debugger::dump(Utils::$context['template_layers'], true)
+			Lang::getTxt('tracy_route_title', file: 'Tracy/') => Utils::$context['page_title'] ?? '',
+			Lang::getTxt('tracy_route_current_url') => $_SERVER['REQUEST_URL'] ?? '',
+			Lang::getTxt('tracy_route_canonical_url') => $canonical ?: Lang::getTxt('no'),
+			Lang::getTxt('tracy_route_linktree') => Debugger::dump(Utils::$context['linktree'], true),
+			Lang::getTxt('tracy_route_sub_template') => 'template_' . (Utils::$context['sub_template'] ?? 'main'),
+			Lang::getTxt('tracy_route_template_layers') => Debugger::dump(Utils::$context['template_layers'], true)
 		];
 
 		if (isset(Utils::$context['debug'])) {
-			$params['templates'] = Debugger::dump(Utils::$context['debug']['templates'], true);
+			$params[Lang::getTxt('tracy_route_templates')] = Debugger::dump(Utils::$context['debug']['templates'], true);
 		}
 
-		return $this->getTablePanel($params, Lang::$txt['tracy_route_panel']);
+		return $this->getTablePanel($params, Lang::getTxt('tracy_route_panel'));
 	}
 }

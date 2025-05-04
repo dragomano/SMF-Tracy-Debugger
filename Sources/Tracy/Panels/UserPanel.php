@@ -49,13 +49,13 @@ class UserPanel extends AbstractPanel
 		IntegrationHook::call('integrate_tracy_user_panel', [&$extends]);
 
 		return $this->getTablePanel([
-			'ID'                            => User::$me->id,
-			Lang::$txt['username']          => User::$me->username,
-			Lang::$txt['email']             => User::$me->email,
-			Lang::$txt['name']              => User::$me->name,
-			Lang::$txt['position']          => Debugger::dump(User::$me->groups, true),
-			Lang::$txt['tracy_user_avatar'] => Debugger::dump(User::$me->avatar, true),
+			'ID'                                  => User::$me->id,
+			Lang::getTxt('username')          => User::$me->username,
+			Lang::getTxt('email')             => User::$me->email,
+			Lang::getTxt('name')              => User::$me->name,
+			Lang::getTxt('position')          => Debugger::dump(User::$me->groups, true),
+			Lang::getTxt('tracy_user_avatar') => Debugger::dump(User::$me->avatar, true),
 			...$extends,
-		], Lang::$txt['tracy_user_panel']);
+		], Lang::getTxt('tracy_user_panel'));
 	}
 }

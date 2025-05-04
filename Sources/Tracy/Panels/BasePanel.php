@@ -49,8 +49,8 @@ class BasePanel extends AbstractPanel
 	public function getPanel(): string
 	{
 		$extends = [
-			Lang::$txt['tracy_js_registry']  => Debugger::dump(Utils::$context['javascript_files'], true),
-			Lang::$txt['tracy_css_registry'] => Debugger::dump(Utils::$context['css_files'], true),
+			Lang::getTxt('tracy_js_registry')  => Debugger::dump(Utils::$context['javascript_files'], true),
+			Lang::getTxt('tracy_css_registry') => Debugger::dump(Utils::$context['css_files'], true),
 		];
 
 		IntegrationHook::call('integrate_tracy_base_panel', [&$extends]);
@@ -69,6 +69,6 @@ class BasePanel extends AbstractPanel
 			'$txt'         => Debugger::dump(Lang::$txt, true),
 			'$settings'    => Debugger::dump(Theme::$current->settings, true),
 			...$extends,
-		], Lang::$txt['tracy_base_panel']);
+		], Lang::getTxt('tracy_base_panel'));
 	}
 }

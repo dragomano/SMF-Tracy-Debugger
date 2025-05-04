@@ -47,9 +47,9 @@ class LightPortalPanel extends AbstractPanel
 			return '';
 
 		$extends = [
-			Lang::$txt['tracy_portal_hook_list']       => Debugger::dump(PortalHook::cases(), true),
-			Lang::$txt['tracy_portal_plugin_registry'] => Debugger::dump(app()->get('plugins'), true),
-			Lang::$txt['tracy_portal_event_manager']   => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
+			Lang::getTxt('tracy_portal_hook_list')       => Debugger::dump(PortalHook::cases(), true),
+			Lang::getTxt('tracy_portal_plugin_registry') => Debugger::dump(app()->get('plugins'), true),
+			Lang::getTxt('tracy_portal_event_manager')   => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
 		];
 
 		return $this->getTablePanel([
@@ -66,6 +66,6 @@ class LightPortalPanel extends AbstractPanel
 			'LP_AREAS_PATTERN' => LP_AREAS_PATTERN,
 			'LP_ADDON_PATTERN' => LP_ADDON_PATTERN,
 			...$extends
-		], Lang::$txt['tracy_portal_panel']);
+		], Lang::getTxt('tracy_portal_panel'));
 	}
 }
