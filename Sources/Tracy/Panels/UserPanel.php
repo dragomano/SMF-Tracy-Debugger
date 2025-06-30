@@ -49,7 +49,7 @@ class UserPanel extends AbstractPanel
 		IntegrationHook::call('integrate_tracy_user_panel', [&$extends]);
 
 		return $this->getTablePanel([
-			'ID'                                  => User::$me->id,
+			'ID'                              => User::$me->id,
 			Lang::getTxt('username')          => User::$me->username,
 			Lang::getTxt('email')             => User::$me->email,
 			Lang::getTxt('name')              => User::$me->name,

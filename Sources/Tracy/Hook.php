@@ -16,7 +16,7 @@ use Bugo\Compat\IntegrationHook;
 #[Attribute(Attribute::TARGET_METHOD)]
 final class Hook
 {
-	public function __construct(private readonly string $name) {}
+	public function __construct(private string $name) {}
 
 	public function resolve(object $class, string $methodName): void
 	{
