@@ -6,7 +6,7 @@
 ![Hooks only: Yes](https://img.shields.io/badge/Hooks%20only-YES-blue)
 ![PHP](https://img.shields.io/badge/PHP-^8.0-blue.svg?style=flat)
 
-- **Tested on:** PHP 8.3.20
+- **Tested on:** PHP 8.3.22
 - **Languages:** English, Russian
 
 ## Description
@@ -19,4 +19,8 @@ This modification integrates [Tracy debugging tool](https://tracy.nette.org/en/)
 
 ## Helper functions
 
-Of course, you can use such functions as `dd`, `dump`, and `bdump` to output PHP variables. `bdump` function creates a new panel "dumps" on the debug bar.
+Of course, you can use such functions as `dd`, `dump`, and `bdump` to output PHP variables:
+
+- `dd` is equal to `dump` + `die`
+- `dump` is a more beatuful wrapper for `var_dump`
+- `bdump` function creates a new "dumps" panel on the debug bar
