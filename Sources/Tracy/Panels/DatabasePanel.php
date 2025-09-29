@@ -89,7 +89,7 @@ class DatabasePanel extends AbstractPanel
 
 	private function getBackgroundTasks(): array
 	{
-		$result = Db::$db->query('', /** @lang text */ 'SELECT * FROM {db_prefix}background_tasks');
+		$result = Db::$db->query(/** @lang text */ 'SELECT * FROM {db_prefix}background_tasks');
 		$tasks  = Db::$db->fetch_all($result);
 
 		Db::$db->free_result($result);

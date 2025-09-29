@@ -45,7 +45,10 @@ final class Integration
 			foreach ($attributes as $attribute) {
 				/** @var Hook $hook */
 				$hook = $attribute->newInstance();
-				$hook->resolve($reflectionClass, $method->getName());
+
+				$callback = $method->class . '::' . $method->getName();
+
+				IntegrationHook::add($hook->name, $callback, false, $method->getFileName(), true);
 			}
 		}
 	}
@@ -136,6 +139,7 @@ final class Integration
 			Config::updateSettingsFile(['db_show_debug' => isset($_POST['tracy_debug_mode'])]);
 
 			CacheApi::clean();
+
 			Utils::redirectexit('action=admin;area=modsettings;sa=tracy_debugger');
 		}
 

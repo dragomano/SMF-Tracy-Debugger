@@ -15,6 +15,8 @@ use Bugo\LightPortal\Enums\PortalHook;
 use Bugo\LightPortal\Events\EventManagerFactory;
 use Tracy\Debugger;
 
+use function Bugo\LightPortal\app;
+
 class LightPortalPanel extends AbstractPanel
 {
 	public function getTab(): string
@@ -47,9 +49,9 @@ class LightPortalPanel extends AbstractPanel
 			return '';
 
 		$extends = [
-			Lang::getTxt('tracy_portal_hook_list')       => Debugger::dump(PortalHook::cases(), true),
+			Lang::getTxt('tracy_portal_hook_list', file: 'Tracy/') => Debugger::dump(PortalHook::cases(), true),
 			Lang::getTxt('tracy_portal_plugin_registry') => Debugger::dump(app()->get('plugins'), true),
-			Lang::getTxt('tracy_portal_event_manager')   => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
+			Lang::getTxt('tracy_portal_event_manager') => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
 		];
 
 		return $this->getTablePanel([

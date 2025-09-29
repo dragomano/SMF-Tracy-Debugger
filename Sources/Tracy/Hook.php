@@ -11,17 +11,9 @@
 namespace Bugo\Tracy;
 
 use Attribute;
-use Bugo\Compat\IntegrationHook;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 final class Hook
 {
-	public function __construct(private string $name) {}
-
-	public function resolve(object $class, string $methodName): void
-	{
-		$method ??= get_class($class->newInstance()) . '::' . $methodName;
-
-		IntegrationHook::add($this->name, $method, false, $class->getFileName(), true);
-	}
+	public function __construct(public string $name) {}
 }
