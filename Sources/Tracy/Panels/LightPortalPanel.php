@@ -11,11 +11,12 @@
 namespace Bugo\Tracy\Panels;
 
 use Bugo\Compat\Lang;
-use Bugo\LightPortal\Enums\PortalHook;
-use Bugo\LightPortal\Events\EventManagerFactory;
+use LightPortal\Enums\PortalHook;
+use LightPortal\Events\EventManagerFactory;
+use Throwable;
 use Tracy\Debugger;
 
-use function Bugo\LightPortal\app;
+use function LightPortal\app;
 
 class LightPortalPanel extends AbstractPanel
 {
@@ -48,9 +49,15 @@ class LightPortalPanel extends AbstractPanel
 		if (! defined('LP_NAME'))
 			return '';
 
+		try {
+			$plugins = app()->get('plugins');
+		} catch (Throwable) {
+			$plugins = [];
+		}
+
 		$extends = [
 			Lang::getTxt('tracy_portal_hook_list', file: 'Tracy/') => Debugger::dump(PortalHook::cases(), true),
-			Lang::getTxt('tracy_portal_plugin_registry') => Debugger::dump(app()->get('plugins'), true),
+			Lang::getTxt('tracy_portal_plugin_registry') => Debugger::dump($plugins, true),
 			Lang::getTxt('tracy_portal_event_manager') => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
 		];
 
