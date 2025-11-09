@@ -22,8 +22,9 @@ class LightPortalPanel extends AbstractPanel
 {
 	public function getTab(): string
 	{
-		if (! defined('LP_NAME'))
+		if (! defined('LP_NAME')) {
 			return '';
+		}
 
 		return $this->getSimpleTab(
 			LP_NAME,
@@ -46,8 +47,9 @@ class LightPortalPanel extends AbstractPanel
 
 	public function getPanel(): string
 	{
-		if (! defined('LP_NAME'))
+		if (! defined('LP_NAME')) {
 			return '';
+		}
 
 		try {
 			$plugins = app()->get('plugins');
@@ -55,10 +57,12 @@ class LightPortalPanel extends AbstractPanel
 			$plugins = [];
 		}
 
+		$eventManager = app(EventManagerFactory::class)();
+
 		$extends = [
 			Lang::getTxt('tracy_portal_hook_list', file: 'Tracy/') => Debugger::dump(PortalHook::cases(), true),
 			Lang::getTxt('tracy_portal_plugin_registry') => Debugger::dump($plugins, true),
-			Lang::getTxt('tracy_portal_event_manager') => Debugger::dump(app(EventManagerFactory::class)()->getAll(), true),
+			Lang::getTxt('tracy_portal_event_manager') => Debugger::dump($eventManager->getAll(), true),
 		];
 
 		return $this->getTablePanel([
