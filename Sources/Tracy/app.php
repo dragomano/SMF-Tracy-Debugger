@@ -6,7 +6,7 @@
  * @package SMF Tracy Debugger
  * @link https://github.com/dragomano/SMF-Tracy-Debugger
  * @author Bugo <bugo@dragomano.ru>
- * @copyright 2022-2025 Bugo
+ * @copyright 2022-2026 Bugo
  * @license https://opensource.org/licenses/BSD-3-Clause BSD
  */
 
@@ -33,7 +33,13 @@ Debugger::$keysToHide = ['passwd'];
 Debugger::$dumpTheme = empty(Config::$modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
 Debugger::$showLocation = ! empty(Config::$modSettings['tracy_show_location']);
 Debugger::$strictMode = true;
-Debugger::enable();
+
+$remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
+$isLoopback = in_array($remoteAddr, ['127.0.0.1', '::1', '[::1]'], true);
+
+// Caddy commonly forwards X-Forwarded-* headers to PHP-FPM, which makes
+// Tracy's auto-detection treat even localhost requests as proxied.
+Debugger::enable($isLoopback ? Debugger::Development : Debugger::Detect);
 
 // Make alias for dumpe function
 if (! function_exists('dd')) {
