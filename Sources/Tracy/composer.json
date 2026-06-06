@@ -1,6 +1,6 @@
 {
   "require": {
-    "php": "^8.0",
+    "php": "^8.2",
     "bugo/smf-compat": "dev-main",
     "tracy/tracy": "^2.0"
   },
@@ -14,7 +14,7 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "platform": {
-      "php": "8.0"
+      "php": "8.2"
     }
   }
 }
