@@ -20,25 +20,24 @@ if (! defined('SMF'))
 if (SMF === 'BACKGROUND')
 	return;
 
-if (isset($_REQUEST['action']) && str_contains($_REQUEST['action'], 'showoperations'))
+$reqAction = (string) ($_REQUEST['action'] ?? '');
+if (str_contains($reqAction, 'admin;area=packages'))
 	return;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Configure debugger
-Debugger::$logSeverity = E_NOTICE | E_WARNING;
-Debugger::$maxLength = (int) (Config::$modSettings['tracy_max_length'] ?? 150);
-Debugger::$maxDepth = (int) (Config::$modSettings['tracy_max_depth'] ?? 10);
-Debugger::$keysToHide = ['passwd'];
-Debugger::$dumpTheme = empty(Config::$modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
+Debugger::$logSeverity  = E_NOTICE | E_WARNING;
+Debugger::$maxLength    = (int) (Config::$modSettings['tracy_max_length'] ?? 150);
+Debugger::$maxDepth     = (int) (Config::$modSettings['tracy_max_depth'] ?? 10);
+Debugger::$keysToHide   = ['passwd'];
+Debugger::$dumpTheme    = empty(Config::$modSettings['tracy_use_light_theme']) ? 'dark' : 'light';
 Debugger::$showLocation = ! empty(Config::$modSettings['tracy_show_location']);
-Debugger::$strictMode = true;
+Debugger::$strictMode   = true;
 
 $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
 $isLoopback = in_array($remoteAddr, ['127.0.0.1', '::1', '[::1]'], true);
 
-// Caddy commonly forwards X-Forwarded-* headers to PHP-FPM, which makes
-// Tracy's auto-detection treat even localhost requests as proxied.
 Debugger::enable($isLoopback ? Debugger::Development : Debugger::Detect);
 
 // Make alias for dumpe function
